@@ -69,7 +69,9 @@ describe('filter functions', function () {
             aplus.filterLimit.should.equal(aplus.selectLimit);
         });
         it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.selectLimit([1], 3, Promise.resolve).then(function () {
+            return aplus.selectLimit([1], 3, function () {
+                return Promise.resolve(true);
+            }).then(function () {
                 aplus.eachLimit.called.should.equal(true);
             });
         });
@@ -82,7 +84,9 @@ describe('filter functions', function () {
             aplus.filter.should.equal(aplus.select);
         });
         it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.select([1], Promise.resolve).then(function () {
+            return aplus.select([1], function () {
+                return Promise.resolve(true);
+            }).then(function () {
                 aplus.each.called.should.equal(true);
             });
         });
@@ -92,8 +96,10 @@ describe('filter functions', function () {
         it('should alias aplus.filterSeries to aplus.selectSeries', function () {
             aplus.filterSeries.should.equal(aplus.selectSeries);
         });
-        it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.selectSeries([1], Promise.resolve).then(function () {
+        it('should spawn Promises via aplus.eachSeries', function () {
+            return aplus.selectSeries([1], function () {
+                return Promise.resolve(true);
+            }).then(function () {
                 aplus.eachSeries.called.should.equal(true);
             });
         });
