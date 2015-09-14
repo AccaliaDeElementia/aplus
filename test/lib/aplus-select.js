@@ -29,7 +29,7 @@ describe('filter functions', function () {
             var input = [1, 2, 3, 4, 5],
                 expected = new Error('i am error' + Math.random());
 
-            function filter(i) {
+            function filter() {
                 return Promise.reject(expected);
             }
             return select(input, filter).then(function () {
@@ -42,7 +42,7 @@ describe('filter functions', function () {
             var input = [1, 2, 3, 4, 5],
                 expected = new Error('i am error' + Math.random());
 
-            function filter(i) {
+            function filter() {
                 throw expected;
             }
 
@@ -69,7 +69,7 @@ describe('filter functions', function () {
             aplus.filterLimit.should.equal(aplus.selectLimit);
         });
         it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.selectLimit([1], 3, Promise.resolve).then(function (values) {
+            return aplus.selectLimit([1], 3, Promise.resolve).then(function () {
                 aplus.eachLimit.called.should.equal(true);
             });
         });
@@ -82,7 +82,7 @@ describe('filter functions', function () {
             aplus.filter.should.equal(aplus.select);
         });
         it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.select([1], Promise.resolve).then(function (values) {
+            return aplus.select([1], Promise.resolve).then(function () {
                 aplus.each.called.should.equal(true);
             });
         });
@@ -93,7 +93,7 @@ describe('filter functions', function () {
             aplus.filterSeries.should.equal(aplus.selectSeries);
         });
         it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.selectSeries([1], Promise.resolve).then(function (values) {
+            return aplus.selectSeries([1], Promise.resolve).then(function () {
                 aplus.eachSeries.called.should.equal(true);
             });
         });
