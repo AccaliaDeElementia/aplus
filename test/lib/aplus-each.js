@@ -19,6 +19,22 @@ describe('aplus.eachLimit', function () {
     it('should alias aplus.eachLimit to aplus.mapLimit', function () {
         aplus.mapLimit.should.equal(aplus.eachLimit);
     });
+    it('should accept empty array', function () {
+        function square(i) {
+            return Promise.resolve(i * i);
+        }
+        return aplus.eachLimit([], 4, square).then(function (values) {
+            values.should.eql([]);
+        });
+    });
+    it('should accept null array', function () {
+        function square(i) {
+            return Promise.resolve(i * i);
+        }
+        return aplus.eachLimit(null, 4, square).then(function (values) {
+            values.should.eql([]);
+        });
+    });
     it('should map array values', function () {
         var input = [1, 2, 3, 4, 5],
             expected = [1, 4, 9, 16, 25];
@@ -78,6 +94,25 @@ describe('aplus.eachLimit', function () {
             rejection.should.equal(expected);
         });
     });
+    it('should not spawn promises after rejection occurs', function () {
+        var input = [],
+            promises = 0,
+            length = 100;
+        for (var i = 1; i <= length; i += 1) {
+            input.push(i);
+        }
+
+        function filter() {
+            promises += 1;
+            if (promises === 3) {
+                return Promise.reject(new Error('boo'));
+            }
+            return Promise.resolve(true);
+        }
+        return aplus.eachLimit(input, 3, filter).catch(function () {
+            promises.should.be.below(length);
+        });
+    });
     it('should spawn only as many Promises as input items', function () {
         var input = [1, 2, 3, 4, 5],
             promises = 0;
@@ -99,7 +134,6 @@ describe('aplus.eachLimit', function () {
         for (var i = 1; i <= length; i += 1) {
             input.push(i);
         }
-
         input.forEach(function (limit) {
             it('limit: ' + limit, function () {
                 var activePromises = 0;
