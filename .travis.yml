@@ -9,7 +9,6 @@ node_js:
 - iojs-v1
 - iojs-v2
 - iojs-v3.2
-- iojs-v3.3
 before_script:
 - rm -rf ./coverage
 after_script:
