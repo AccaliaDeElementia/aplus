@@ -1,0 +1,36 @@
+{
+  "name": "sockbot",
+  "version": "2.11.1",
+  "releaseName": "Cheery Chiffon",
+  "description": "A sockpuppet bot to use on http://what.thedailywtf.com.",
+  "repository": "https://github.com/AccaliaDeElementia/aplus",
+  "license": "MIT",
+  "author": "Accalia Elementia <accalia@sockdrawer.io> (https://github.com/AccaliaDeElementia)",
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/AccaliaDeElementia/aplus/issues",
+    "email": "support@sockdrawer.io"
+  },
+  "bin": "./lib/aplus.js",
+  "engines": {
+    "node": ">=0.10",
+    "iojs": ">=1.7"
+  },
+  "dependencies": {
+    "promise-polyfill": "^2.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "eslint": "^1.4.1",
+    "istanbul": "^0.3.19",
+    "mocha": "^2.3.2",
+    "sinon": "^1.16.1"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "eslint . && istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R dot",
+    "istanbul": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R dot",
+    "mocha": "mocha --recursive -R nyan"
+  }
+}
