@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- node
+- iojs
+- '0.10'
+- '0.11'
+- '0.12.6'
+- '0.12.7'
+- iojs-v1
+- iojs-v2
+- iojs-v3.2
+- iojs-v3.3
+before_script:
+- rm -rf ./coverage
+after_script:
+- test -e ./coverage/lcov.info && < ./coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js
