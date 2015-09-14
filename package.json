@@ -30,7 +30,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "eslint . && istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R dot",
-    "istanbul": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R dot",
+    "istanbul": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R nyan",
     "mocha": "mocha --recursive -R nyan"
   }
 }
