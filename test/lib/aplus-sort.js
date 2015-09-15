@@ -61,8 +61,8 @@ describe('aplus.sort()', function () {
         }
         expected = input.slice();
         expected.sort();
-        return aplus.sort(input, function (i) {
-            return Promise.resolve(i);
+        return aplus.sort(input, function (j) {
+            return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
         });
@@ -118,8 +118,8 @@ describe('aplus.sortSeries()', function () {
         }
         expected = input.slice();
         expected.sort();
-        return aplus.sortSeries(input, function (i) {
-            return Promise.resolve(i);
+        return aplus.sortSeries(input, function (j) {
+            return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
         });
@@ -190,8 +190,8 @@ describe('aplus.sortLimit()', function () {
         }
         expected = input.slice();
         expected.sort();
-        return aplus.sortLimit(input, 3, function (i) {
-            return Promise.resolve(i);
+        return aplus.sortLimit(input, 3, function (j) {
+            return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
         });
