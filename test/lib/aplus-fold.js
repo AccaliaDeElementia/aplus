@@ -51,6 +51,20 @@ describe('aplus.foldl()', function () {
             value.should.eql(expected);
         });
     });
+    it('should accept empty series as start value', function () {
+        return aplus.foldl([], 0, function (a, b) {
+            return Promise.resolve(Math.max(a, b));
+        }).then(function (value) {
+            value.should.eql(0);
+        });
+    });
+    it('should accept null series as start value', function () {
+        return aplus.foldl(null, 0, function (a, b) {
+            return Promise.resolve(Math.max(a, b));
+        }).then(function (value) {
+            value.should.eql(0);
+        });
+    });
 });
 describe('aplus.foldr()', function () {
     var sandbox;
@@ -86,6 +100,20 @@ describe('aplus.foldr()', function () {
             return Promise.resolve(Math.max(a, b));
         }).then(function (value) {
             value.should.eql(expected);
+        });
+    });
+    it('should accept empty series as start value', function () {
+        return aplus.foldr([], 0, function (a, b) {
+            return Promise.resolve(Math.max(a, b));
+        }).then(function (value) {
+            value.should.eql(0);
+        });
+    });
+    it('should accept null series as start value', function () {
+        return aplus.foldr(null, 0, function (a, b) {
+            return Promise.resolve(Math.max(a, b));
+        }).then(function (value) {
+            value.should.eql(0);
         });
     });
 });
