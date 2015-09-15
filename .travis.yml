@@ -4,8 +4,8 @@ node_js:
 - iojs
 - '0.10'
 - '0.11'
-- '0.12.6'
-- '0.12.7'
+- 0.12.6
+- 0.12.7
 - iojs-v1
 - iojs-v2
 - iojs-v3.2
@@ -13,3 +13,7 @@ before_script:
 - rm -rf ./coverage
 after_script:
 - test -e ./coverage/lcov.info && < ./coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js
+env:
+  global:
+    service_name: travis-pro
+    secure: PN/F1XIsgNlIJd0pePwWLQFoWW6dkcxcMb/VZn3+jy42vtkQJ7n0dgKXLmC4nq5DxCaYr4t+Tz5g0+62nzjrUuxzyF5uVxf0Q4pD8yuucz8Lz7an1GgYw8CKtZFjI0vU7gy/XG5Ylv+dXQD17ysqjhialtbruWopiiMSx7HFSjf+awWjNjFR4DW2edt68LXkl0jmb/9MhSLBunFAvDWMUARQ/uuUOs+qpjyDIEQ6sOk3oBOYosRWfvD+l2xwuh6vd0OBW33D9+/sahGr9KA8t8LKH4mhlWg071FZin3iOXuJV+oG9lnTuZbiuGbjH7BGkoeEXc6LV7ASCLWpX7NkXo4hqPkFodJjdsSulGxqSBXhczsbLkWhlpcf4BICQvpCogOmtacIDecoRcJkeUxW2oLfz/p+zkM+I1dYDWxpnzUxBvLfQCSV/ooJR8UKNu+bdVGC7VJYkOk9MI0lUHGO/TG1wQM5Am3IOAVuRnZiaEzct2hHpwDorTGwSGtbdF6YUw1Xn7UPz51tFhCyIayS95HBIzq6ABhTjWlMExpbNckz8QiQHOxlLWGoy1z7WClqfvrlTmZlllwjXymhiG71hR7Q7mDTsexRUKiyz6RzDaAlK5O4LXe3lOWkxaBOxvls2Ew8GQ+QlwEeU4OkqqtefQ2+KMouDHDYgT1HKt2DRmY=
