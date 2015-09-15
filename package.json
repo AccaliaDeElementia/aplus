@@ -1,8 +1,7 @@
 {
-  "name": "sockbot",
-  "version": "2.11.1",
-  "releaseName": "Cheery Chiffon",
-  "description": "A sockpuppet bot to use on http://what.thedailywtf.com.",
+  "name": "aplus",
+  "version": "0.1.0",
+  "description": "Utilities for dealing with Promises and turning callback based APIs into promises",
   "repository": "https://github.com/AccaliaDeElementia/aplus",
   "license": "MIT",
   "author": "Accalia Elementia <accalia@sockdrawer.io> (https://github.com/AccaliaDeElementia)",
