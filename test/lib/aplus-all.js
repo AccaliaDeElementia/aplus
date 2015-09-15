@@ -52,7 +52,7 @@ describe('aplus.all()', function () {
                 throw error;
             }
             return Promise.resolve(true);
-        }).then(function (value) {
+        }).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (err) {
             err.should.equal(error);
