@@ -70,27 +70,28 @@ describe('aplus.foldr()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(aplus, 'foldl');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn Promises via aplus.eachSeries', function () {
+    it('should alias aplus.reduceRight to aplus.foldr', function () {
+        aplus.reduceRight.should.equal(aplus.foldr);
+    });
+    it('should pass processing off to aplus.foldl', function () {
         return aplus.foldr([1], 0, function () {
             return Promise.resolve(true);
         }).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+            aplus.foldl.called.should.equal(true);
         });
     });
-    it('should reduce in right to left order', function () {
+    it('should reverse order before handing off to foldl', function () {
         var input = [5, 4, 3, 2, 1],
-            expected = [1, 2, 3, 4, 5],
-            order = [];
+            expected = [1, 2, 3, 4, 5];
         return aplus.foldr(input, 0, function (_, item) {
-            order.push(item);
             return Promise.resolve(item);
         }).then(function () {
-            order.should.eql(expected);
+            aplus.foldl.firstCall.args[0].should.eql(expected);
         });
     });
     it('should reduce to single value', function () {
