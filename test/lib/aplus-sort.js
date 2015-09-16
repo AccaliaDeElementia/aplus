@@ -56,7 +56,7 @@ describe('aplus.sort()', function () {
     it('should sort large input', function () {
         var input = [],
             expected;
-        for (var i = 0; i < 1000; i += 1) {
+        for (var i = 0; i < 100; i += 1) {
             input.push(Math.random());
         }
         expected = input.slice();
@@ -113,7 +113,7 @@ describe('aplus.sortSeries()', function () {
     it('should sort large input', function () {
         var input = [],
             expected;
-        for (var i = 0; i < 1000; i += 1) {
+        for (var i = 0; i < 100; i += 1) {
             input.push(Math.random());
         }
         expected = input.slice();
@@ -185,7 +185,7 @@ describe('aplus.sortLimit()', function () {
     it('should sort large input', function () {
         var input = [],
             expected;
-        for (var i = 0; i < 1000; i += 1) {
+        for (var i = 0; i < 100; i += 1) {
             input.push(Math.random());
         }
         expected = input.slice();
