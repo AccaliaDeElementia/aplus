@@ -1,9 +1,8 @@
 'use strict';
 
 var chai = require('chai'),
-    chaiAsPromised = require('chai-as-promised'),
-    sinon = require('sinon');
-
+    chaiAsPromised = require('chai-as-promised');
+    
 if (!global.Promise) {
     global.Promise = require('promise-polyfill');
 }
@@ -49,4 +48,4 @@ describe('aplus.forever()', function () {
             err.should.equal(expected);
         });
     });
-})
+});
