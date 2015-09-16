@@ -152,6 +152,32 @@ describe('aplus.eachLimit', function () {
             });
         });
     });
+    it('should behave when provided with a thenable', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.eachLimit(input, 4, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.eachLimit(input, 4, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
 });
 describe('aplus.eachLimit() {object}', function () {
     it('should accept empty object values', function () {
@@ -299,12 +325,54 @@ describe('aplus.eachLimit() {object}', function () {
             });
         });
     });
+    it('should behave when provided with a thenable', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.eachLimit(input, 4, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.eachLimit(input, 4, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
 });
 describe('aplus.eachSeries', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.stub(aplus, 'eachLimit');
+        sandbox.spy(aplus, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
@@ -332,6 +400,32 @@ describe('aplus.eachSeries', function () {
         var iterator = sinon.spy();
         aplus.eachSeries([], iterator);
         aplus.eachLimit.firstCall.args[2].should.equal(iterator);
+    });
+    it('should behave when provided with a thenable', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.eachSeries(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.eachSeries(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
     });
 });
 describe('aplus.eachSeries() {object}', function () {
@@ -462,12 +556,54 @@ describe('aplus.eachSeries() {object}', function () {
         }
         return aplus.eachSeries(input, square);
     });
+    it('should behave when provided with a thenable', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.eachSeries(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.eachSeries(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
 });
 describe('aplus.each', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.stub(aplus, 'eachLimit');
+        sandbox.spy(aplus, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
@@ -495,6 +631,32 @@ describe('aplus.each', function () {
         var iterator = sinon.spy();
         aplus.each([], iterator);
         aplus.eachLimit.firstCall.args[2].should.equal(iterator);
+    });
+    it('should behave when provided with a thenable', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.each(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = [1, 2, 3, 4, 5],
+            expected = [1, 4, 9, 16, 25];
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.each(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
     });
 });
 
@@ -566,6 +728,48 @@ describe('aplus.each() {object}', function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
+        });
+    });
+    it('should behave when provided with a thenable', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return {
+                then: function (resolve) {
+                    resolve(i * i);
+                }
+            };
+        }
+        return aplus.each(input, square).then(function (values) {
+            values.should.eql(expected);
+        });
+    });
+    it('should behave when provided with a raw value', function () {
+        var input = {
+                first: 1,
+                second: 2,
+                third: 3
+            },
+            expected = {
+                first: 1,
+                second: 4,
+                third: 9
+            };
+
+        function square(i) {
+            return i * i;
+        }
+        return aplus.each(input, square).then(function (values) {
+            values.should.eql(expected);
         });
     });
 });
