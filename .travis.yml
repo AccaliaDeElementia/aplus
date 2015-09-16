@@ -1,14 +1,14 @@
 language: node_js
 node_js:
-- node
-- iojs
-- 0.10
-- 0.11
-- 0.12.6
-- 0.12.7
-- iojs-v1
-- iojs-v2
-- iojs-v3.2
+- 'node'
+- 'iojs'
+- '0.10'
+- '0.11'
+- '0.12.6'
+- '0.12.7'
+- 'iojs-v1'
+- 'iojs-v2'
+- 'iojs-v3.2'
 before_script:
 - rm -rf ./coverage
 after_script:
