@@ -156,16 +156,20 @@ describe('aplus.concatLimit()', function () {
         });
     });
     it('should not spawn additional promises once a promise rejects', function () {
-        var promises = 0,
-            error = new Error('early break');
-        return aplus.concatLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
+        var input = [],
+            promises = 0,
+            length = 100;
+        for (var i = 1; i <= length; i += 1) {
+            input[i] = i;
+        }
+        return aplus.concatLimit(input, 3, function (i) {
             promises += 1;
             if (i === 5) {
-                throw error;
+                return Promise.reject(new Error());
             }
             return Promise.resolve(false);
         }).catch(function () {
-            promises.should.be.lessThan(10);
+            promises.should.be.lessThan(input.length);
         });
     });
 });

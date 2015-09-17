@@ -155,12 +155,17 @@ describe('aplus.anyLimit()', function () {
         });
     });
     it('should not spawn additional promises after a promise resolves truthy', function () {
-        var promises = 0;
-        return aplus.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
+        var input = [],
+            promises = 0,
+            length = 100;
+        for (var i = 1; i <= length; i += 1) {
+            input[i] = i;
+        }
+        return aplus.anyLimit(input, 3, function (i) {
             promises += 1;
             return Promise.resolve(i === 5);
         }).then(function () {
-            promises.should.be.lessThan(10);
+            promises.should.be.lessThan(input.length);
         });
     });
     it('should resolve false when all promises resolve falsey', function () {
