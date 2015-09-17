@@ -161,9 +161,9 @@ describe('aplus.anyLimit()', function () {
         for (var i = 1; i <= length; i += 1) {
             input[i] = i;
         }
-        return aplus.anyLimit(input, 3, function (i) {
+        return aplus.anyLimit(input, 3, function (j) {
             promises += 1;
-            return Promise.resolve(i === 5);
+            return Promise.resolve(j === 5);
         }).then(function () {
             promises.should.be.lessThan(input.length);
         });

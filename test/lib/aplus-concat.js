@@ -162,9 +162,9 @@ describe('aplus.concatLimit()', function () {
         for (var i = 1; i <= length; i += 1) {
             input[i] = i;
         }
-        return aplus.concatLimit(input, 3, function (i) {
+        return aplus.concatLimit(input, 3, function (j) {
             promises += 1;
-            if (i === 5) {
+            if (j === 5) {
                 return Promise.reject(new Error());
             }
             return Promise.resolve(false);

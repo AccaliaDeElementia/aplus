@@ -168,9 +168,9 @@ describe('aplus.allLimit()', function () {
         for (var i = 1; i <= length; i += 1) {
             input[i] = i;
         }
-        return aplus.allLimit(input, 3, function (i) {
+        return aplus.allLimit(input, 3, function (j) {
             spawned += 1;
-            return Promise.resolve(i !== 5);
+            return Promise.resolve(j !== 5);
         }).then(function () {
             spawned.should.be.lessThan(input.length);
         });
