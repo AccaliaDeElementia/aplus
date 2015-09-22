@@ -60,7 +60,9 @@ describe('aplus.sort()', function () {
             input.push(Math.random());
         }
         expected = input.slice();
-        expected.sort();
+        expected.sort(function (a, b) {
+            return a - b;
+        });
         return aplus.sort(input, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
@@ -117,7 +119,9 @@ describe('aplus.sortSeries()', function () {
             input.push(Math.random());
         }
         expected = input.slice();
-        expected.sort();
+        expected.sort(function (a, b) {
+            return a - b;
+        });
         return aplus.sortSeries(input, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
@@ -189,7 +193,9 @@ describe('aplus.sortLimit()', function () {
             input.push(Math.random());
         }
         expected = input.slice();
-        expected.sort();
+        expected.sort(function (a, b) {
+            return a - b;
+        });
         return aplus.sortLimit(input, 3, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
