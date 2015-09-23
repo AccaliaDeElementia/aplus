@@ -133,13 +133,13 @@ describe('aplus.queue()', function () {
     });
     describe('q.push()', function () {
         beforeEach(function () {
-            sandbox.spy(Array.prototype, 'push');
+            sandbox.spy(Array.prototype.push, 'apply');
         });
         it('should add tasks via Array.push', function () {
             var q = aplus.queue(echo),
                 input = ['hi!'];
             q.push(input);
-            Array.prototype.push.callCount.should.equal(3);
+            Array.prototype.push.apply.callCount.should.equal(1);
         });
         it('should resolve promise on task resolution', function () {
             var q = aplus.queue(echo);
