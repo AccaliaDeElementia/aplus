@@ -47,6 +47,12 @@ describe('aplus.queue()', function () {
         it('should use default concurrency of `1` when negative concurency requested', function () {
             aplus.queue(echo, -3.14).concurrency.should.equal(1);
         });
+        it('should change the concurrency on the flu', function () {
+            var q = aplus.queue(echo, 1);
+            q.concurrency = 5;
+            q.push([0, 1, 2, 3, 4]);
+            q.running().should.equal(5);
+        });
     });
     describe('q.started', function () {
         it('should intially be set to false', function () {
@@ -128,6 +134,33 @@ describe('aplus.queue()', function () {
             var q = aplus.queue(echo, 5);
             return q.push([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).then(function () {
                 q.running().should.equal(0);
+            });
+        });
+    });
+    describe('q.idle()', function () {
+        it('should have intial value of `true`', function () {
+            var q = aplus.queue(echo);
+            q.idle().should.equal(true);
+        });
+        it('should be false if there are running tasks', function () {
+            var q = aplus.queue(echo, 1);
+            q.push([0]);
+            q.idle().should.equal(false);
+        });
+        it('should be false if there are waiting tasks', function () {
+            var q = aplus.queue(echo, 1);
+            var p = q.push([0]);
+            q.push([0]);
+            return p.then(function () {
+                q.idle().should.equal(false);
+            });
+        });
+        it('should be false if there are no waiting tasks, nor running tasks', function () {
+            var q = aplus.queue(echo, 1),
+                a = q.push([0]),
+                b = q.push([0]);
+            return Promise.all([a, b]).then(function () {
+                q.idle().should.equal(true);
             });
         });
     });
@@ -221,6 +254,60 @@ describe('aplus.queue()', function () {
             }).catch(function (err) {
                 err.should.equal(error);
             });
+        });
+    });
+    describe('q.saturated', function () {
+        it('should not fire when enqueueing tasks below the concurrency limit', function () {
+            var q = aplus.queue(echo, 5);
+            q.saturated = sinon.spy();
+            q.push([1, 2, 3, 4]);
+            q.saturated.called.should.equal(false);
+        });
+        it('should not fire when enqueueing tasks that reach the concurrency limit', function () {
+            var q = aplus.queue(echo, 5);
+            q.saturated = sinon.spy();
+            q.push([1, 2, 3, 4]);
+            q.saturated.called.should.equal(false);
+            q.push(1);
+            q.saturated.called.should.equal(true);
+        });
+        it('should not fire when enqueueing tasks that exceed the concurrency limit', function () {
+            var q = aplus.queue(echo, 5);
+            q.saturated = sinon.spy();
+            q.push([1, 2, 3, 4]);
+            q.saturated.called.should.equal(false);
+            q.push([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+            q.saturated.called.should.equal(true);
+        });
+        it('should not error when nulled', function () {
+            var q = aplus.queue(echo, 5);
+            q.saturated = null;
+            return q.push([1, 2, 3, 4, 5, 6]);
+        });
+    });
+    describe('q.empty', function () {
+        it('should fire when handing only task to queue', function () {
+            var q = aplus.queue(echo, 5);
+            q.empty = sinon.spy();
+            q.push(1);
+            q.empty.called.should.equal(true);
+        });
+        it('should fire when handing tasks below concurrency limit to workers', function () {
+            var q = aplus.queue(echo, 5);
+            q.empty = sinon.spy();
+            q.push([1, 2, 3, 4]);
+            q.empty.called.should.equal(true);
+        });
+        it('should not fire when enqueueing tasks that exceed the concurrency limit', function () {
+            var q = aplus.queue(echo, 5);
+            q.empty = sinon.spy();
+            q.push([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
+            q.empty.called.should.equal(false);
+        });
+        it('should not error when nulled', function () {
+            var q = aplus.queue(echo, 5);
+            q.empty = null;
+            return q.push(1);
         });
     });
 });
