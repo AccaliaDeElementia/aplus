@@ -7,6 +7,11 @@ var chai = require('chai'),
 if (!global.Promise) {
     global.Promise = require('promise-polyfill');
 }
+Promise.delay = function (ms) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve, ms);
+    });
+};
 chai.use(chaiAsPromised);
 chai.should();
 
@@ -143,7 +148,10 @@ describe('aplus.queue()', function () {
                 q.running().should.equal(5);
             });
             it('should reflect number of running tasks (on completion)', function () {
-                var q = aplus.queue(echo, 5);
+                function worker() {
+                    return Promise.delay(20);
+                }
+                var q = aplus.queue(worker, 5);
                 var p = q.push([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
                 q.push([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
                 return p.then(function () {
@@ -154,6 +162,7 @@ describe('aplus.queue()', function () {
                 var q = aplus.queue(echo, 5);
                 return q.push([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).then(function () {
                     q.running().should.equal(0);
+
                 });
             });
         });
@@ -168,7 +177,10 @@ describe('aplus.queue()', function () {
                 q.idle().should.equal(false);
             });
             it('should be false if there are waiting tasks', function () {
-                var q = aplus.queue(echo, 1);
+                function worker() {
+                    return Promise.delay(20);
+                }
+                var q = aplus.queue(worker, 1);
                 var p = q.push([0]);
                 q.push([0]);
                 return p.then(function () {
@@ -176,7 +188,10 @@ describe('aplus.queue()', function () {
                 });
             });
             it('should be false if there are no waiting tasks, nor running tasks', function () {
-                var q = aplus.queue(echo, 1),
+                function worker() {
+                    return Promise.delay(20);
+                }
+                var q = aplus.queue(worker, 1),
                     a = q.push([0]),
                     b = q.push([0]);
                 return Promise.all([a, b]).then(function () {
@@ -419,11 +434,10 @@ describe('aplus.queue()', function () {
                 });
             });
             it('should not fire on task completion when other tasks are still running', function () {
-                var q = aplus.queue(function (item) {
-                    return new Promise(function (resolve) {
-                        setTimeout(resolve, 10 * item); // make sure tehre are outstanding tasks when one finishes
-                    });
-                }, 10);
+                function worker() {
+                    return Promise.delay(20);
+                }
+                var q = aplus.queue(worker, 1);
                 q.drain = sinon.spy();
                 var p = q.push(1);
                 q.push([1, 2, 3, 4]);
@@ -432,7 +446,10 @@ describe('aplus.queue()', function () {
                 });
             });
             it('should not fire on task completion when other tasks are still queued', function () {
-                var q = aplus.queue(echo, 1);
+                function worker() {
+                    return Promise.delay(20);
+                }
+                var q = aplus.queue(worker, 1);
                 q.drain = sinon.spy();
                 var p = q.push(1);
                 q.push([1, 2, 3, 4]);
