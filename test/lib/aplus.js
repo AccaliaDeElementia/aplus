@@ -51,19 +51,19 @@ describe('aplus.delay()', function () {
     it('should resolve after delay', function () {
         var now = Date.now();
         return aplus.delay(500).then(function () {
-            (Date.now() - now).should.be.at.least(500);
+            (Date.now() - now).should.be.at.least(499);
         });
     });
     it('should resolve using default delay if not specified', function () {
         var now = Date.now();
         return aplus.delay().then(function () {
-            (Date.now() - now).should.be.at.least(100);
+            (Date.now() - now).should.be.at.least(99);
         });
     });
     it('should resolve using default delay when no parameters specified', function () {
         var now = Date.now();
         return aplus.delay().then(function () {
-            (Date.now() - now).should.be.at.least(100);
+            (Date.now() - now).should.be.at.least(99);
         });
     });
     it('should resolve to `undefined` when no parameters specified', function () {
@@ -74,7 +74,7 @@ describe('aplus.delay()', function () {
     it('should resolve using default delay when only value specified', function () {
         var now = Date.now();
         return aplus.delay('hi!').then(function () {
-            (Date.now() - now).should.be.at.least(100);
+            (Date.now() - now).should.be.at.least(99);
         });
     });
     it('should resolve to value when only value specified', function () {
@@ -85,7 +85,7 @@ describe('aplus.delay()', function () {
     it('should resolve using provided delay when delay and value specified', function () {
         var now = Date.now();
         return aplus.delay(200, 'bye!').then(function () {
-            (Date.now() - now).should.be.at.least(200);
+            (Date.now() - now).should.be.at.least(199);
         });
     });
     it('should resolve to value when delay and value specified', function () {
