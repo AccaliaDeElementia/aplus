@@ -15,7 +15,6 @@ before_script:
 - rm -rf ./coverage
 after_script:
 - test -e ./coverage/lcov.info && < ./coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js
-- test -e ./coverage/coverage.json && < ./coverage/coverage.json ./node_modules/codecov.io/bin/codecov.io.js
 notifications:
   webhooks:
     urls:
