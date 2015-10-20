@@ -10,6 +10,7 @@
     "url": "https://github.com/AccaliaDeElementia/aplus/issues",
     "email": "support@sockdrawer.io"
   },
+  "main": "./lib/aplus.js",
   "bin": "./lib/aplus.js",
   "engines": {
     "node": ">=0.10",
