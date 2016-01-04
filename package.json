@@ -9,8 +9,8 @@
   "bugs": {
     "url": "https://github.com/AccaliaDeElementia/async-as-promised/issues"
   },
-  "main": "./lib/aplus.js",
-  "bin": "./lib/aplus.js",
+  "main": "./lib/async-as-promised.js",
+  "bin": "./lib/async-as-promised.js",
   "engines": {
     "node": ">=0.10",
     "iojs": ">=1.7"
