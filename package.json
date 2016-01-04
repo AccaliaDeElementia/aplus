@@ -1,5 +1,5 @@
 {
-  "name": "aplus-as-promised",
+  "name": "async-as-promised",
   "version": "0.5.0",
   "description": "Utilities for dealing with Promises and turning callback based APIs into promises",
   "repository": "https://github.com/AccaliaDeElementia/aplus",
@@ -7,7 +7,7 @@
   "author": "Accalia Elementia <accalia.de.elementia@gmail.com> (https://github.com/AccaliaDeElementia)",
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/AccaliaDeElementia/aplus-as-promised/issues"
+    "url": "https://github.com/AccaliaDeElementia/async-as-promised/issues"
   },
   "main": "./lib/aplus.js",
   "bin": "./lib/aplus.js",
