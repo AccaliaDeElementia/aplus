@@ -10,22 +10,22 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.apply()', function () {
+describe('async.apply()', function () {
     it('should return a function', function () {
-        aplus.apply(sinon.spy()).should.be.a('function');
+        async.apply(sinon.spy()).should.be.a('function');
     });
     it('should call wrapped function on execution', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.apply(spy);
+            wrapped = async.apply(spy);
         return wrapped().then(function () {
             spy.called.should.equal(true);
         });
     });
     it('should apply wrapped arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.apply(spy, 4, 3, 5, 1, 2),
+            wrapped = async.apply(spy, 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2];
         return wrapped().then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -33,7 +33,7 @@ describe('aplus.apply()', function () {
     });
     it('should apply passed arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.apply(spy, 4, 3, 5, 1, 2),
+            wrapped = async.apply(spy, 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2, 9, 6, 8, 10, 7];
         return wrapped(9, 6, 8, 10, 7).then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -41,7 +41,7 @@ describe('aplus.apply()', function () {
     });
     it('should resolve to value of inner promise', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.apply(spy),
+            wrapped = async.apply(spy),
             expected = 'i am a value';
         spy.returns(Promise.resolve('i am a value'));
         return wrapped().then(function (value) {
@@ -50,7 +50,7 @@ describe('aplus.apply()', function () {
     });
     it('should accept synchronous function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.apply(spy),
+            wrapped = async.apply(spy),
             expected = 'i am a value';
         spy.returns('i am a value');
         return wrapped().then(function (value) {
@@ -59,7 +59,7 @@ describe('aplus.apply()', function () {
     });
     it('should accept thenable function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.apply(spy),
+            wrapped = async.apply(spy),
             expected = 'i am a value';
         spy.returns({
             then: function (r) {
@@ -72,7 +72,7 @@ describe('aplus.apply()', function () {
     });
     it('should reject when inner promise rejects', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.apply(spy),
+            wrapped = async.apply(spy),
             expected = new Error('bad!');
         spy.returns(Promise.reject(expected));
         return wrapped().then(function () {
@@ -82,35 +82,35 @@ describe('aplus.apply()', function () {
         });
     });
 });
-describe('aplus.applyEach()', function () {
+describe('async.applyEach()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
     it('should return a function', function () {
-        aplus.applyEach(sinon.spy()).should.be.a('function');
+        async.applyEach(sinon.spy()).should.be.a('function');
     });
-    it('should spawn promises via aplus.each', function () {
+    it('should spawn promises via async.each', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEach([spy]);
+            wrapped = async.applyEach([spy]);
         return wrapped().then(function () {
-            aplus.each.called.should.equal(true);
+            async.each.called.should.equal(true);
         });
     });
     it('should call wrapped function on execution', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEach([spy]);
+            wrapped = async.applyEach([spy]);
         return wrapped().then(function () {
             spy.called.should.equal(true);
         });
     });
     it('should applyEach wrapped arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEach([spy], 4, 3, 5, 1, 2),
+            wrapped = async.applyEach([spy], 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2];
         return wrapped().then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -118,7 +118,7 @@ describe('aplus.applyEach()', function () {
     });
     it('should applyEach passed arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEach([spy], 4, 3, 5, 1, 2),
+            wrapped = async.applyEach([spy], 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2, 9, 6, 8, 10, 7];
         return wrapped(9, 6, 8, 10, 7).then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -126,7 +126,7 @@ describe('aplus.applyEach()', function () {
     });
     it('should resolve to value of inner promise', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEach([spy]),
+            wrapped = async.applyEach([spy]),
             expected = ['i am a value'];
         spy.returns(Promise.resolve('i am a value'));
         return wrapped().then(function (value) {
@@ -136,7 +136,7 @@ describe('aplus.applyEach()', function () {
     it('should resolve to value of inner promises', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEach([spy, spy2]),
+            wrapped = async.applyEach([spy, spy2]),
             expected = ['i am a value', 'other value'];
         spy.returns(Promise.resolve('i am a value'));
         spy2.returns(Promise.resolve('other value'));
@@ -147,7 +147,7 @@ describe('aplus.applyEach()', function () {
     it('should work with object of functions too', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEach({
+            wrapped = async.applyEach({
                 one: spy,
                 two: spy2
             }),
@@ -163,7 +163,7 @@ describe('aplus.applyEach()', function () {
     });
     it('should accept synchronous function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEach([spy]),
+            wrapped = async.applyEach([spy]),
             expected = ['i am a value'];
         spy.returns('i am a value');
         return wrapped().then(function (value) {
@@ -172,7 +172,7 @@ describe('aplus.applyEach()', function () {
     });
     it('should accept thenable function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEach([spy]),
+            wrapped = async.applyEach([spy]),
             expected = ['i am a value'];
         spy.returns({
             then: function (r) {
@@ -185,7 +185,7 @@ describe('aplus.applyEach()', function () {
     });
     it('should reject when inner promise rejects', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEach([spy]),
+            wrapped = async.applyEach([spy]),
             expected = new Error('bad!');
         spy.returns(Promise.reject(expected));
         return wrapped().then(function () {
@@ -195,35 +195,35 @@ describe('aplus.applyEach()', function () {
         });
     });
 });
-describe('aplus.applyEachSeries()', function () {
+describe('async.applyEachSeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
     it('should return a function', function () {
-        aplus.applyEachSeries(sinon.spy()).should.be.a('function');
+        async.applyEachSeries(sinon.spy()).should.be.a('function');
     });
-    it('should spawn promises via aplus.each', function () {
+    it('should spawn promises via async.each', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachSeries([spy]);
+            wrapped = async.applyEachSeries([spy]);
         return wrapped().then(function () {
-            aplus.eachSeries.called.should.equal(true);
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should call wrapped function on execution', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachSeries([spy]);
+            wrapped = async.applyEachSeries([spy]);
         return wrapped().then(function () {
             spy.called.should.equal(true);
         });
     });
     it('should applyEachSeries wrapped arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachSeries([spy], 4, 3, 5, 1, 2),
+            wrapped = async.applyEachSeries([spy], 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2];
         return wrapped().then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -231,7 +231,7 @@ describe('aplus.applyEachSeries()', function () {
     });
     it('should applyEachSeries passed arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachSeries([spy], 4, 3, 5, 1, 2),
+            wrapped = async.applyEachSeries([spy], 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2, 9, 6, 8, 10, 7];
         return wrapped(9, 6, 8, 10, 7).then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -239,7 +239,7 @@ describe('aplus.applyEachSeries()', function () {
     });
     it('should resolve to value of inner promise', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachSeries([spy]),
+            wrapped = async.applyEachSeries([spy]),
             expected = ['i am a value'];
         spy.returns(Promise.resolve('i am a value'));
         return wrapped().then(function (value) {
@@ -249,7 +249,7 @@ describe('aplus.applyEachSeries()', function () {
     it('should resolve to value of inner promises', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEachSeries([spy, spy2]),
+            wrapped = async.applyEachSeries([spy, spy2]),
             expected = ['i am a value', 'other value'];
         spy.returns(Promise.resolve('i am a value'));
         spy2.returns(Promise.resolve('other value'));
@@ -260,7 +260,7 @@ describe('aplus.applyEachSeries()', function () {
     it('should work with object of functions too', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEachSeries({
+            wrapped = async.applyEachSeries({
                 one: spy,
                 two: spy2
             }),
@@ -276,7 +276,7 @@ describe('aplus.applyEachSeries()', function () {
     });
     it('should accept synchronous function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachSeries([spy]),
+            wrapped = async.applyEachSeries([spy]),
             expected = ['i am a value'];
         spy.returns('i am a value');
         return wrapped().then(function (value) {
@@ -285,7 +285,7 @@ describe('aplus.applyEachSeries()', function () {
     });
     it('should accept thenable function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachSeries([spy]),
+            wrapped = async.applyEachSeries([spy]),
             expected = ['i am a value'];
         spy.returns({
             then: function (r) {
@@ -298,7 +298,7 @@ describe('aplus.applyEachSeries()', function () {
     });
     it('should reject when inner promise rejects', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachSeries([spy]),
+            wrapped = async.applyEachSeries([spy]),
             expected = new Error('bad!');
         spy.returns(Promise.reject(expected));
         return wrapped().then(function () {
@@ -308,35 +308,35 @@ describe('aplus.applyEachSeries()', function () {
         });
     });
 });
-describe('aplus.applyEachLimit()', function () {
+describe('async.applyEachLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
     it('should return a function', function () {
-        aplus.applyEachLimit(sinon.spy(), 2).should.be.a('function');
+        async.applyEachLimit(sinon.spy(), 2).should.be.a('function');
     });
-    it('should spawn promises via aplus.each', function () {
+    it('should spawn promises via async.each', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachLimit([spy], 3);
+            wrapped = async.applyEachLimit([spy], 3);
         return wrapped().then(function () {
-            aplus.eachLimit.called.should.equal(true);
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should call wrapped function on execution', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachLimit([spy], 3);
+            wrapped = async.applyEachLimit([spy], 3);
         return wrapped().then(function () {
             spy.called.should.equal(true);
         });
     });
     it('should applyEachLimit wrapped arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachLimit([spy], 3, 4, 3, 5, 1, 2),
+            wrapped = async.applyEachLimit([spy], 3, 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2];
         return wrapped().then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -344,7 +344,7 @@ describe('aplus.applyEachLimit()', function () {
     });
     it('should applyEachLimit passed arguments to wrapped function', function () {
         var spy = sinon.spy(),
-            wrapped = aplus.applyEachLimit([spy], 3, 4, 3, 5, 1, 2),
+            wrapped = async.applyEachLimit([spy], 3, 4, 3, 5, 1, 2),
             expected = [4, 3, 5, 1, 2, 9, 6, 8, 10, 7];
         return wrapped(9, 6, 8, 10, 7).then(function () {
             spy.firstCall.args.should.eql(expected);
@@ -352,7 +352,7 @@ describe('aplus.applyEachLimit()', function () {
     });
     it('should resolve to value of inner promise', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachLimit([spy], 3),
+            wrapped = async.applyEachLimit([spy], 3),
             expected = ['i am a value'];
         spy.returns(Promise.resolve('i am a value'));
         return wrapped().then(function (value) {
@@ -362,7 +362,7 @@ describe('aplus.applyEachLimit()', function () {
     it('should resolve to value of inner promises', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEachLimit([spy, spy2], 3),
+            wrapped = async.applyEachLimit([spy, spy2], 3),
             expected = ['i am a value', 'other value'];
         spy.returns(Promise.resolve('i am a value'));
         spy2.returns(Promise.resolve('other value'));
@@ -373,7 +373,7 @@ describe('aplus.applyEachLimit()', function () {
     it('should work with object of functions too', function () {
         var spy = sinon.stub(),
             spy2 = sinon.stub(),
-            wrapped = aplus.applyEachLimit({
+            wrapped = async.applyEachLimit({
                 one: spy,
                 two: spy2
             }, 3),
@@ -389,7 +389,7 @@ describe('aplus.applyEachLimit()', function () {
     });
     it('should accept synchronous function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachLimit([spy], 3),
+            wrapped = async.applyEachLimit([spy], 3),
             expected = ['i am a value'];
         spy.returns('i am a value');
         return wrapped().then(function (value) {
@@ -398,7 +398,7 @@ describe('aplus.applyEachLimit()', function () {
     });
     it('should accept thenable function', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachLimit([spy], 3),
+            wrapped = async.applyEachLimit([spy], 3),
             expected = ['i am a value'];
         spy.returns({
             then: function (r) {
@@ -411,7 +411,7 @@ describe('aplus.applyEachLimit()', function () {
     });
     it('should reject when inner promise rejects', function () {
         var spy = sinon.stub(),
-            wrapped = aplus.applyEachLimit([spy], 3),
+            wrapped = async.applyEachLimit([spy], 3),
             expected = new Error('bad!');
         spy.returns(Promise.reject(expected));
         return wrapped().then(function () {

@@ -10,23 +10,23 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.parallel()', function () {
+describe('async.parallel()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn processes via aplus.each with task array', function () {
+    it('should spawn processes via async.each with task array', function () {
         var input = [function () {
             return Promise.resolve(1);
         }];
-        return aplus.parallel(input).then(function () {
-            aplus.each.called.should.equal(true);
+        return async.parallel(input).then(function () {
+            async.each.called.should.equal(true);
         });
     });
     it('should operate on an array of tasks returning promises', function () {
@@ -42,7 +42,7 @@ describe('aplus.parallel()', function () {
                 return Promise.resolve(5);
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -59,7 +59,7 @@ describe('aplus.parallel()', function () {
                 return 5;
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -96,7 +96,7 @@ describe('aplus.parallel()', function () {
                 };
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -109,20 +109,20 @@ describe('aplus.parallel()', function () {
             }, function () {
                 return Promise.resolve(1);
             }];
-        return aplus.parallel(input).then(function () {
+        return async.parallel(input).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
         });
     });
-    it('should spawn processes via aplus.each with task array', function () {
+    it('should spawn processes via async.each with task array', function () {
         var input = {
             one: function () {
                 return Promise.resolve(1);
             }
         };
-        return aplus.parallel(input).then(function () {
-            aplus.each.called.should.equal(true);
+        return async.parallel(input).then(function () {
+            async.each.called.should.equal(true);
         });
     });
     it('should operate on a map of tasks returning promises', function () {
@@ -150,7 +150,7 @@ describe('aplus.parallel()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -179,7 +179,7 @@ describe('aplus.parallel()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -228,7 +228,7 @@ describe('aplus.parallel()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallel(input).then(function (value) {
+        return async.parallel(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -245,7 +245,7 @@ describe('aplus.parallel()', function () {
                     return Promise.resolve(1);
                 }
             };
-        return aplus.parallel(input).then(function () {
+        return async.parallel(input).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -255,21 +255,21 @@ describe('aplus.parallel()', function () {
 
 
 
-describe('aplus.parallelLimit()', function () {
+describe('async.parallelLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn processes via aplus.eachLimit with task array', function () {
+    it('should spawn processes via async.eachLimit with task array', function () {
         var input = [function () {
             return Promise.resolve(1);
         }];
-        return aplus.parallelLimit(input, 5).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+        return async.parallelLimit(input, 5).then(function () {
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should operate on an array of tasks returning promises', function () {
@@ -285,7 +285,7 @@ describe('aplus.parallelLimit()', function () {
                 return Promise.resolve(5);
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -302,7 +302,7 @@ describe('aplus.parallelLimit()', function () {
                 return 5;
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -339,7 +339,7 @@ describe('aplus.parallelLimit()', function () {
                 };
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -352,7 +352,7 @@ describe('aplus.parallelLimit()', function () {
             }, function () {
                 return Promise.resolve(1);
             }];
-        return aplus.parallelLimit(input, 2).then(function () {
+        return async.parallelLimit(input, 2).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -379,18 +379,18 @@ describe('aplus.parallelLimit()', function () {
                 promises++;
                 return Promise.resolve(1);
             }];
-        return aplus.parallelLimit(input, 2).catch(function () {
+        return async.parallelLimit(input, 2).catch(function () {
             promises.should.be.lessThan(input.length);
         });
     });
-    it('should spawn processes via aplus.each with task array', function () {
+    it('should spawn processes via async.each with task array', function () {
         var input = {
             one: function () {
                 return Promise.resolve(1);
             }
         };
-        return aplus.parallelLimit(input, 2).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+        return async.parallelLimit(input, 2).then(function () {
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should operate on a map of tasks returning promises', function () {
@@ -418,7 +418,7 @@ describe('aplus.parallelLimit()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -447,7 +447,7 @@ describe('aplus.parallelLimit()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -496,7 +496,7 @@ describe('aplus.parallelLimit()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.parallelLimit(input, 2).then(function (value) {
+        return async.parallelLimit(input, 2).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -513,7 +513,7 @@ describe('aplus.parallelLimit()', function () {
                     return Promise.resolve(1);
                 }
             };
-        return aplus.parallelLimit(input, 2).then(function () {
+        return async.parallelLimit(input, 2).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -547,7 +547,7 @@ describe('aplus.parallelLimit()', function () {
                     return Promise.resolve(1);
                 }
             };
-        return aplus.parallelLimit(input, 2).catch(function () {
+        return async.parallelLimit(input, 2).catch(function () {
             promises.should.be.lessThan(6);
         });
     });

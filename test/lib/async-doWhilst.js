@@ -10,19 +10,19 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
 
-describe('aplus.doWhilst()', function () {
-    it('should alias aplus.doDuring to aplus.doWhilst', function () {
-        aplus.doDuring.should.equal(aplus.doWhilst);
+describe('async.doWhilst()', function () {
+    it('should alias async.doDuring to async.doWhilst', function () {
+        async.doDuring.should.equal(async.doWhilst);
     });
     it('should call iterator on initial test failure', function () {
         var test = sinon.stub(),
             iterator = sinon.stub();
         test.returns(Promise.resolve(false));
         iterator.returns(Promise.resolve());
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             iterator.called.should.equal(true);
         });
     });
@@ -32,7 +32,7 @@ describe('aplus.doWhilst()', function () {
             iterator = sinon.stub();
         iterator.returns(Promise.resolve());
         test.returns(Promise.reject(error));
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -44,7 +44,7 @@ describe('aplus.doWhilst()', function () {
             iterator = sinon.stub();
         test.throws(error);
         iterator.returns(Promise.resolve());
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -56,7 +56,7 @@ describe('aplus.doWhilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(Promise.resolve(null));
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             // will operate an extra time due to the post check
             iterator.callCount.should.equal(6);
         });
@@ -67,7 +67,7 @@ describe('aplus.doWhilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(Promise.resolve(null));
-        return aplus.doWhilst(iterator, test).then(function (value) {
+        return async.doWhilst(iterator, test).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -77,7 +77,7 @@ describe('aplus.doWhilst()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(true));
         iterator.returns(Promise.reject(error));
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -89,7 +89,7 @@ describe('aplus.doWhilst()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(true));
         iterator.throws(error);
-        return aplus.doWhilst(iterator, test).then(function () {
+        return async.doWhilst(iterator, test).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -101,7 +101,7 @@ describe('aplus.doWhilst()', function () {
         test.returns(true);
         test.onCall(5).returns(false);
         iterator.returns(Promise.resolve(null));
-        return aplus.doWhilst(iterator, test).then(function (value) {
+        return async.doWhilst(iterator, test).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -111,7 +111,7 @@ describe('aplus.doWhilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(null);
-        return aplus.doWhilst(iterator, test).then(function (value) {
+        return async.doWhilst(iterator, test).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -129,7 +129,7 @@ describe('aplus.doWhilst()', function () {
             }
         });
         iterator.returns(Promise.resolve(null));
-        return aplus.doWhilst(iterator, test).then(function (value) {
+        return async.doWhilst(iterator, test).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -143,7 +143,7 @@ describe('aplus.doWhilst()', function () {
                 return resolve(null);
             }
         });
-        return aplus.doWhilst(iterator, test).then(function (value) {
+        return async.doWhilst(iterator, test).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });

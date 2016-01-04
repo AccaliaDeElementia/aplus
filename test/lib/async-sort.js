@@ -10,35 +10,35 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
-describe('aplus.sort()', function () {
+var async = require('../../lib/async-as-promised');
+describe('async.sort()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.sortBy to aplus.sort', function () {
-        aplus.sortBy.should.equal(aplus.sort);
+    it('should alias async.sortBy to async.sort', function () {
+        async.sortBy.should.equal(async.sort);
     });
-    it('should spawn Promises via aplus.each', function () {
-        return aplus.sort([1], function (i) {
+    it('should spawn Promises via async.each', function () {
+        return async.sort([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.each.called.should.equal(true);
+            async.each.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {
-        return aplus.sort([], function (i) {
+        return async.sort([], function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
         });
     });
     it('should accept null input', function () {
-        return aplus.sort(null, function (i) {
+        return async.sort(null, function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
@@ -47,7 +47,7 @@ describe('aplus.sort()', function () {
     it('should sort input', function () {
         var input = [8, 2, 5, 1, 0, 4, 3, 9, 7, 6, 5],
             expected = [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9];
-        return aplus.sort(input, function (i) {
+        return async.sort(input, function (i) {
             return Promise.resolve(i);
         }).then(function (output) {
             output.should.eql(expected);
@@ -63,41 +63,41 @@ describe('aplus.sort()', function () {
         expected.sort(function (a, b) {
             return a - b;
         });
-        return aplus.sort(input, function (j) {
+        return async.sort(input, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
         });
     });
 });
-describe('aplus.sortSeries()', function () {
+describe('async.sortSeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.sortBySeries to aplus.sortSeries', function () {
-        aplus.sortBySeries.should.equal(aplus.sortSeries);
+    it('should alias async.sortBySeries to async.sortSeries', function () {
+        async.sortBySeries.should.equal(async.sortSeries);
     });
-    it('should spawn Promises via aplus.eachSeries', function () {
-        return aplus.sortSeries([1], function (i) {
+    it('should spawn Promises via async.eachSeries', function () {
+        return async.sortSeries([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {
-        return aplus.sortSeries([], function (i) {
+        return async.sortSeries([], function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
         });
     });
     it('should accept null input', function () {
-        return aplus.sortSeries(null, function (i) {
+        return async.sortSeries(null, function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
@@ -106,7 +106,7 @@ describe('aplus.sortSeries()', function () {
     it('should sort input', function () {
         var input = [8, 2, 5, 1, 0, 4, 3, 9, 7, 6, 5],
             expected = [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9];
-        return aplus.sortSeries(input, function (i) {
+        return async.sortSeries(input, function (i) {
             return Promise.resolve(i);
         }).then(function (output) {
             output.should.eql(expected);
@@ -122,7 +122,7 @@ describe('aplus.sortSeries()', function () {
         expected.sort(function (a, b) {
             return a - b;
         });
-        return aplus.sortSeries(input, function (j) {
+        return async.sortSeries(input, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
@@ -131,7 +131,7 @@ describe('aplus.sortSeries()', function () {
     it('should not spawn additional promises once a promise rejects', function () {
         var promises = 0,
             error = new Error('early break');
-        return aplus.sortSeries([8, 2, 5, 1, 0, 4, 3, 9, 7, 6], function (i) {
+        return async.sortSeries([8, 2, 5, 1, 0, 4, 3, 9, 7, 6], function (i) {
             promises += 1;
             if (i === 5) {
                 throw error;
@@ -144,34 +144,34 @@ describe('aplus.sortSeries()', function () {
         });
     });
 });
-describe('aplus.sortLimit()', function () {
+describe('async.sortLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.sortByLimit to aplus.sortLimit', function () {
-        aplus.sortByLimit.should.equal(aplus.sortLimit);
+    it('should alias async.sortByLimit to async.sortLimit', function () {
+        async.sortByLimit.should.equal(async.sortLimit);
     });
-    it('should spawn Promises via aplus.eachLimit', function () {
-        return aplus.sortLimit([1], 3, function (i) {
+    it('should spawn Promises via async.eachLimit', function () {
+        return async.sortLimit([1], 3, function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {
-        return aplus.sortLimit([], 3, function (i) {
+        return async.sortLimit([], 3, function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
         });
     });
     it('should accept null input', function () {
-        return aplus.sortLimit(null, 3, function (i) {
+        return async.sortLimit(null, 3, function (i) {
             return Promise.resolve(i);
         }).then(function (value) {
             value.should.eql([]);
@@ -180,7 +180,7 @@ describe('aplus.sortLimit()', function () {
     it('should sort input', function () {
         var input = [8, 2, 5, 1, 0, 4, 3, 9, 7, 6, 5],
             expected = [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9];
-        return aplus.sortLimit(input, 3, function (i) {
+        return async.sortLimit(input, 3, function (i) {
             return Promise.resolve(i);
         }).then(function (output) {
             output.should.eql(expected);
@@ -196,7 +196,7 @@ describe('aplus.sortLimit()', function () {
         expected.sort(function (a, b) {
             return a - b;
         });
-        return aplus.sortLimit(input, 3, function (j) {
+        return async.sortLimit(input, 3, function (j) {
             return Promise.resolve(j);
         }).then(function (output) {
             output.should.eql(expected);
@@ -205,7 +205,7 @@ describe('aplus.sortLimit()', function () {
     it('should not spawn additional promises once a promise rejects', function () {
         var promises = 0,
             error = new Error('early break');
-        return aplus.sortLimit([8, 2, 5, 1, 0, 4, 3, 9, 7, 6], function (i) {
+        return async.sortLimit([8, 2, 5, 1, 0, 4, 3, 9, 7, 6], function (i) {
             promises += 1;
             if (i === 5) {
                 throw error;

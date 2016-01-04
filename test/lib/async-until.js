@@ -10,15 +10,15 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
 
-describe('aplus.until()', function () {
+describe('async.until()', function () {
     it('should not call iterator on initial test failure', function () {
         var test = sinon.stub(),
             iterator = sinon.stub();
         test.returns(Promise.resolve(true));
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             iterator.called.should.equal(false);
         });
     });
@@ -27,7 +27,7 @@ describe('aplus.until()', function () {
             test = sinon.stub(),
             iterator = sinon.stub();
         test.returns(Promise.reject(error));
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -38,7 +38,7 @@ describe('aplus.until()', function () {
             test = sinon.stub(),
             iterator = sinon.stub();
         test.throws(error);
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -50,7 +50,7 @@ describe('aplus.until()', function () {
         test.returns(Promise.resolve(false));
         test.onCall(5).returns(Promise.resolve(true));
         iterator.returns(Promise.resolve(null));
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             iterator.callCount.should.equal(5);
         });
     });
@@ -60,7 +60,7 @@ describe('aplus.until()', function () {
         test.returns(Promise.resolve(false));
         test.onCall(5).returns(Promise.resolve(true));
         iterator.returns(Promise.resolve(null));
-        return aplus.until(test, iterator).then(function (value) {
+        return async.until(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -70,7 +70,7 @@ describe('aplus.until()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(false));
         iterator.returns(Promise.reject(error));
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -82,7 +82,7 @@ describe('aplus.until()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(false));
         iterator.throws(error);
-        return aplus.until(test, iterator).then(function () {
+        return async.until(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -94,7 +94,7 @@ describe('aplus.until()', function () {
         test.returns(false);
         test.onCall(5).returns(true);
         iterator.returns(Promise.resolve(null));
-        return aplus.until(test, iterator).then(function (value) {
+        return async.until(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -104,7 +104,7 @@ describe('aplus.until()', function () {
         test.returns(Promise.resolve(false));
         test.onCall(5).returns(Promise.resolve(true));
         iterator.returns(null);
-        return aplus.until(test, iterator).then(function (value) {
+        return async.until(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -122,7 +122,7 @@ describe('aplus.until()', function () {
             }
         });
         iterator.returns(Promise.resolve(null));
-        return aplus.until(test, iterator).then(function (value) {
+        return async.until(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -136,7 +136,7 @@ describe('aplus.until()', function () {
                 return resolve(null);
             }
         });
-        return aplus.until(test, iterator).then(function (value) {
+        return async.until(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });

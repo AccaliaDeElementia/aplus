@@ -10,63 +10,63 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.times()', function () {
+describe('async.times()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should proxy requests to aplus.each()', function () {
+    it('should proxy requests to async.each()', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(5, spy).then(function () {
-            aplus.each.called.should.equal(true);
+        return async.times(5, spy).then(function () {
+            async.each.called.should.equal(true);
         });
     });
     it('should not loop for zero times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(0, spy).then(function () {
-            aplus.each.called.should.equal(false);
+        return async.times(0, spy).then(function () {
+            async.each.called.should.equal(false);
         });
     });
     it('should not loop for negative times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(-1, spy).then(function () {
-            aplus.each.called.should.equal(false);
+        return async.times(-1, spy).then(function () {
+            async.each.called.should.equal(false);
         });
     });
     it('should not loop for null times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(null, spy).then(function () {
-            aplus.each.called.should.equal(false);
+        return async.times(null, spy).then(function () {
+            async.each.called.should.equal(false);
         });
     });
     it('should not loop for NaN times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(Number.NaN, spy).then(function () {
-            aplus.each.called.should.equal(false);
+        return async.times(Number.NaN, spy).then(function () {
+            async.each.called.should.equal(false);
         });
     });
     it('should not loop for string times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times('hi!', spy).then(function () {
-            aplus.each.called.should.equal(false);
+        return async.times('hi!', spy).then(function () {
+            async.each.called.should.equal(false);
         });
     });
     it('should take floor for non integral times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.times(6.3, spy).then(function () {
+        return async.times(6.3, spy).then(function () {
             spy.callCount.should.equal(6);
         });
     });
@@ -75,66 +75,66 @@ describe('aplus.times()', function () {
             return i * i;
         }
         var expected = [0, 1, 4, 9, 16, 25];
-        return aplus.times(6, square).then(function (value) {
+        return async.times(6, square).then(function (value) {
             value.should.eql(expected);
         });
     });
 });
-describe('aplus.timesSeries()', function () {
+describe('async.timesSeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should proxy requests to aplus.eachSeries()', function () {
+    it('should proxy requests to async.eachSeries()', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(5, spy).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+        return async.timesSeries(5, spy).then(function () {
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should not loop for zero times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(0, spy).then(function () {
-            aplus.eachSeries.called.should.equal(false);
+        return async.timesSeries(0, spy).then(function () {
+            async.eachSeries.called.should.equal(false);
         });
     });
     it('should not loop for negative times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(-1, spy).then(function () {
-            aplus.eachSeries.called.should.equal(false);
+        return async.timesSeries(-1, spy).then(function () {
+            async.eachSeries.called.should.equal(false);
         });
     });
     it('should not loop for null times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(null, spy).then(function () {
-            aplus.eachSeries.called.should.equal(false);
+        return async.timesSeries(null, spy).then(function () {
+            async.eachSeries.called.should.equal(false);
         });
     });
     it('should not loop for NaN times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(Number.NaN, spy).then(function () {
-            aplus.eachSeries.called.should.equal(false);
+        return async.timesSeries(Number.NaN, spy).then(function () {
+            async.eachSeries.called.should.equal(false);
         });
     });
     it('should not loop for string times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries('hi!', spy).then(function () {
-            aplus.eachSeries.called.should.equal(false);
+        return async.timesSeries('hi!', spy).then(function () {
+            async.eachSeries.called.should.equal(false);
         });
     });
     it('should take floor for non integral times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesSeries(6.3, spy).then(function () {
+        return async.timesSeries(6.3, spy).then(function () {
             spy.callCount.should.equal(6);
         });
     });
@@ -143,66 +143,66 @@ describe('aplus.timesSeries()', function () {
             return i * i;
         }
         var expected = [0, 1, 4, 9, 16, 25];
-        return aplus.timesSeries(6, square).then(function (value) {
+        return async.timesSeries(6, square).then(function (value) {
             value.should.eql(expected);
         });
     });
 });
-describe('aplus.timesLimit()', function () {
+describe('async.timesLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should proxy requests to aplus.eachLimit()', function () {
+    it('should proxy requests to async.eachLimit()', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(5, 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+        return async.timesLimit(5, 3, spy).then(function () {
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should not loop for zero times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(0, 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(false);
+        return async.timesLimit(0, 3, spy).then(function () {
+            async.eachLimit.called.should.equal(false);
         });
     });
     it('should not loop for negative times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(-1, 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(false);
+        return async.timesLimit(-1, 3, spy).then(function () {
+            async.eachLimit.called.should.equal(false);
         });
     });
     it('should not loop for null times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(null, 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(false);
+        return async.timesLimit(null, 3, spy).then(function () {
+            async.eachLimit.called.should.equal(false);
         });
     });
     it('should not loop for NaN times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(Number.NaN, 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(false);
+        return async.timesLimit(Number.NaN, 3, spy).then(function () {
+            async.eachLimit.called.should.equal(false);
         });
     });
     it('should not loop for string times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit('hi!', 3, spy).then(function () {
-            aplus.eachLimit.called.should.equal(false);
+        return async.timesLimit('hi!', 3, spy).then(function () {
+            async.eachLimit.called.should.equal(false);
         });
     });
     it('should take floor for non integral times', function () {
         var spy = sinon.stub();
         spy.returns(5);
-        return aplus.timesLimit(6.3, 3, spy).then(function () {
+        return async.timesLimit(6.3, 3, spy).then(function () {
             spy.callCount.should.equal(6);
         });
     });
@@ -211,7 +211,7 @@ describe('aplus.timesLimit()', function () {
             return i * i;
         }
         var expected = [0, 1, 4, 9, 16, 25];
-        return aplus.timesLimit(6, 3, square).then(function (value) {
+        return async.timesLimit(6, 3, square).then(function (value) {
             value.should.eql(expected);
         });
     });

@@ -10,20 +10,20 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.eachLimit', function () {
-    it('should alias aplus.eachLimit to aplus.forEachLimit', function () {
-        aplus.forEachLimit.should.equal(aplus.eachLimit);
+describe('async.eachLimit', function () {
+    it('should alias async.eachLimit to async.forEachLimit', function () {
+        async.forEachLimit.should.equal(async.eachLimit);
     });
-    it('should alias aplus.eachLimit to aplus.mapLimit', function () {
-        aplus.mapLimit.should.equal(aplus.eachLimit);
+    it('should alias async.eachLimit to async.mapLimit', function () {
+        async.mapLimit.should.equal(async.eachLimit);
     });
     it('should accept empty array', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return aplus.eachLimit([], 4, square).then(function (values) {
+        return async.eachLimit([], 4, square).then(function (values) {
             values.should.eql([]);
         });
     });
@@ -31,7 +31,7 @@ describe('aplus.eachLimit', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return aplus.eachLimit(null, 4, square).then(function (values) {
+        return async.eachLimit(null, 4, square).then(function (values) {
             values.should.eql([]);
         });
     });
@@ -44,7 +44,7 @@ describe('aplus.eachLimit', function () {
                 resolve(i * i);
             });
         }
-        return aplus.eachLimit(input, 4, square).then(function (values) {
+        return async.eachLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -54,7 +54,7 @@ describe('aplus.eachLimit', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return aplus.eachLimit(input, undefined, square);
+        return async.eachLimit(input, undefined, square);
     });
     it('should reject on inner promise rejection', function () {
         var input = [1, 2, 3, 4, 5],
@@ -69,7 +69,7 @@ describe('aplus.eachLimit', function () {
                 }
             });
         }
-        return aplus.eachLimit(input, 4, square).then(function () {
+        return async.eachLimit(input, 4, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -88,7 +88,7 @@ describe('aplus.eachLimit', function () {
                 }
             });
         }
-        return aplus.eachLimit(input, 3, square).then(function () {
+        return async.eachLimit(input, 3, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -109,7 +109,7 @@ describe('aplus.eachLimit', function () {
             }
             return Promise.resolve(true);
         }
-        return aplus.eachLimit(input, 3, filter).catch(function () {
+        return async.eachLimit(input, 3, filter).catch(function () {
             promises.should.be.below(length);
         });
     });
@@ -124,7 +124,7 @@ describe('aplus.eachLimit', function () {
 
             });
         }
-        return aplus.eachLimit(input, 100, square).then(function () {
+        return async.eachLimit(input, 100, square).then(function () {
             promises.should.equal(input.length);
         });
     });
@@ -148,7 +148,7 @@ describe('aplus.eachLimit', function () {
                         return Promise.resolve(value);
                     });
                 }
-                return aplus.eachLimit(input, limit, square);
+                return async.eachLimit(input, limit, square);
             });
         });
     });
@@ -163,7 +163,7 @@ describe('aplus.eachLimit', function () {
                 }
             };
         }
-        return aplus.eachLimit(input, 4, square).then(function (values) {
+        return async.eachLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -174,15 +174,15 @@ describe('aplus.eachLimit', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.eachLimit(input, 4, square).then(function (values) {
+        return async.eachLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('aplus.eachLimit() {object}', function () {
+describe('async.eachLimit() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return aplus.eachLimit(input, 5, function (i) {
+        return async.eachLimit(input, 5, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -197,7 +197,7 @@ describe('aplus.eachLimit() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return aplus.eachLimit(input, 5, function (i) {
+        return async.eachLimit(input, 5, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -214,7 +214,7 @@ describe('aplus.eachLimit() {object}', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return aplus.eachLimit(input, undefined, square);
+        return async.eachLimit(input, undefined, square);
     });
     it('should reject on inner promise rejection', function () {
         var input = {
@@ -233,7 +233,7 @@ describe('aplus.eachLimit() {object}', function () {
                 }
             });
         }
-        return aplus.eachLimit(input, 4, square).then(function () {
+        return async.eachLimit(input, 4, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -256,7 +256,7 @@ describe('aplus.eachLimit() {object}', function () {
                 }
             });
         }
-        return aplus.eachLimit(input, 3, square).then(function () {
+        return async.eachLimit(input, 3, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -277,7 +277,7 @@ describe('aplus.eachLimit() {object}', function () {
             }
             return Promise.resolve(true);
         }
-        return aplus.eachLimit(input, 3, filter).catch(function () {
+        return async.eachLimit(input, 3, filter).catch(function () {
             promises.should.be.below(length);
         });
     });
@@ -296,7 +296,7 @@ describe('aplus.eachLimit() {object}', function () {
 
             });
         }
-        return aplus.eachLimit(input, 100, square).then(function () {
+        return async.eachLimit(input, 100, square).then(function () {
             promises.should.equal(3);
         });
     });
@@ -321,7 +321,7 @@ describe('aplus.eachLimit() {object}', function () {
                         return Promise.resolve(value);
                     });
                 }
-                return aplus.eachLimit(input, limit, square);
+                return async.eachLimit(input, limit, square);
             });
         });
     });
@@ -344,7 +344,7 @@ describe('aplus.eachLimit() {object}', function () {
                 }
             };
         }
-        return aplus.eachLimit(input, 4, square).then(function (values) {
+        return async.eachLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -363,43 +363,43 @@ describe('aplus.eachLimit() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.eachLimit(input, 4, square).then(function (values) {
+        return async.eachLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('aplus.eachSeries', function () {
+describe('async.eachSeries', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.eachSeries to aplus.forEachSeries', function () {
-        aplus.forEachSeries.should.equal(aplus.eachSeries);
+    it('should alias async.eachSeries to async.forEachSeries', function () {
+        async.forEachSeries.should.equal(async.eachSeries);
     });
-    it('should alias aplus.eachSeries to aplus.mapSeries', function () {
-        aplus.mapSeries.should.equal(aplus.eachSeries);
+    it('should alias async.eachSeries to async.mapSeries', function () {
+        async.mapSeries.should.equal(async.eachSeries);
     });
-    it('should proxy calls to aplus.eachLimit', function () {
-        aplus.eachSeries([], sinon.spy());
-        aplus.eachLimit.called.should.equal(true);
+    it('should proxy calls to async.eachLimit', function () {
+        async.eachSeries([], sinon.spy());
+        async.eachLimit.called.should.equal(true);
     });
-    it('should pass array to aplus.eachLimit', function () {
+    it('should pass array to async.eachLimit', function () {
         var arr = [1, 2, 3];
-        aplus.eachSeries(arr, sinon.spy());
-        aplus.eachLimit.firstCall.args[0].should.equal(arr);
+        async.eachSeries(arr, sinon.spy());
+        async.eachLimit.firstCall.args[0].should.equal(arr);
     });
-    it('should pass limit of 1 to aplus.eachLimit', function () {
-        aplus.eachSeries([], sinon.spy());
-        aplus.eachLimit.firstCall.args[1].should.equal(1);
+    it('should pass limit of 1 to async.eachLimit', function () {
+        async.eachSeries([], sinon.spy());
+        async.eachLimit.firstCall.args[1].should.equal(1);
     });
-    it('should pass iterator to aplus.eachLimit', function () {
+    it('should pass iterator to async.eachLimit', function () {
         var iterator = sinon.spy();
-        aplus.eachSeries([], iterator);
-        aplus.eachLimit.firstCall.args[2].should.equal(iterator);
+        async.eachSeries([], iterator);
+        async.eachLimit.firstCall.args[2].should.equal(iterator);
     });
     it('should behave when provided with a thenable', function () {
         var input = [1, 2, 3, 4, 5],
@@ -412,7 +412,7 @@ describe('aplus.eachSeries', function () {
                 }
             };
         }
-        return aplus.eachSeries(input, square).then(function (values) {
+        return async.eachSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -423,15 +423,15 @@ describe('aplus.eachSeries', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.eachSeries(input, square).then(function (values) {
+        return async.eachSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('aplus.eachSeries() {object}', function () {
+describe('async.eachSeries() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return aplus.eachSeries(input, function (i) {
+        return async.eachSeries(input, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -446,7 +446,7 @@ describe('aplus.eachSeries() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return aplus.eachSeries(input, function (i) {
+        return async.eachSeries(input, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -469,7 +469,7 @@ describe('aplus.eachSeries() {object}', function () {
                 }
             });
         }
-        return aplus.eachSeries(input, square).then(function () {
+        return async.eachSeries(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -492,7 +492,7 @@ describe('aplus.eachSeries() {object}', function () {
                 }
             });
         }
-        return aplus.eachSeries(input, square).then(function () {
+        return async.eachSeries(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -513,7 +513,7 @@ describe('aplus.eachSeries() {object}', function () {
             }
             return Promise.resolve(true);
         }
-        return aplus.eachSeries(input, filter).catch(function () {
+        return async.eachSeries(input, filter).catch(function () {
             promises.should.equal(10);
         });
     });
@@ -532,7 +532,7 @@ describe('aplus.eachSeries() {object}', function () {
 
             });
         }
-        return aplus.eachSeries(input, square).then(function () {
+        return async.eachSeries(input, square).then(function () {
             promises.should.equal(3);
         });
     });
@@ -554,7 +554,7 @@ describe('aplus.eachSeries() {object}', function () {
                 return Promise.resolve(value);
             });
         }
-        return aplus.eachSeries(input, square);
+        return async.eachSeries(input, square);
     });
     it('should behave when provided with a thenable', function () {
         var input = {
@@ -575,7 +575,7 @@ describe('aplus.eachSeries() {object}', function () {
                 }
             };
         }
-        return aplus.eachSeries(input, square).then(function (values) {
+        return async.eachSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -594,43 +594,43 @@ describe('aplus.eachSeries() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.eachSeries(input, square).then(function (values) {
+        return async.eachSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('aplus.each', function () {
+describe('async.each', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.each to aplus.forEach', function () {
-        aplus.forEach.should.equal(aplus.each);
+    it('should alias async.each to async.forEach', function () {
+        async.forEach.should.equal(async.each);
     });
-    it('should alias aplus.each to aplus.map', function () {
-        aplus.map.should.equal(aplus.each);
+    it('should alias async.each to async.map', function () {
+        async.map.should.equal(async.each);
     });
-    it('should proxy calls to aplus.eachLimit', function () {
-        aplus.each([], sinon.spy());
-        aplus.eachLimit.called.should.equal(true);
+    it('should proxy calls to async.eachLimit', function () {
+        async.each([], sinon.spy());
+        async.eachLimit.called.should.equal(true);
     });
-    it('should pass array to aplus.eachLimit', function () {
+    it('should pass array to async.eachLimit', function () {
         var arr = [1, 2, 3];
-        aplus.each(arr, sinon.spy());
-        aplus.eachLimit.firstCall.args[0].should.equal(arr);
+        async.each(arr, sinon.spy());
+        async.eachLimit.firstCall.args[0].should.equal(arr);
     });
-    it('should pass limit of POSITIVE_INFINITY to aplus.eachLimit', function () {
-        aplus.each([], sinon.spy());
-        aplus.eachLimit.firstCall.args[1].should.equal(Number.POSITIVE_INFINITY);
+    it('should pass limit of POSITIVE_INFINITY to async.eachLimit', function () {
+        async.each([], sinon.spy());
+        async.eachLimit.firstCall.args[1].should.equal(Number.POSITIVE_INFINITY);
     });
-    it('should pass iterator to aplus.eachLimit', function () {
+    it('should pass iterator to async.eachLimit', function () {
         var iterator = sinon.spy();
-        aplus.each([], iterator);
-        aplus.eachLimit.firstCall.args[2].should.equal(iterator);
+        async.each([], iterator);
+        async.eachLimit.firstCall.args[2].should.equal(iterator);
     });
     it('should behave when provided with a thenable', function () {
         var input = [1, 2, 3, 4, 5],
@@ -643,7 +643,7 @@ describe('aplus.each', function () {
                 }
             };
         }
-        return aplus.each(input, square).then(function (values) {
+        return async.each(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -654,16 +654,16 @@ describe('aplus.each', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.each(input, square).then(function (values) {
+        return async.each(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
 
-describe('aplus.each() {object}', function () {
+describe('async.each() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return aplus.each(input, function (i) {
+        return async.each(input, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -678,7 +678,7 @@ describe('aplus.each() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return aplus.each(input, function (i) {
+        return async.each(input, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -701,7 +701,7 @@ describe('aplus.each() {object}', function () {
                 }
             });
         }
-        return aplus.each(input, square).then(function () {
+        return async.each(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -724,7 +724,7 @@ describe('aplus.each() {object}', function () {
                 }
             });
         }
-        return aplus.each(input, square).then(function () {
+        return async.each(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -749,7 +749,7 @@ describe('aplus.each() {object}', function () {
                 }
             };
         }
-        return aplus.each(input, square).then(function (values) {
+        return async.each(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -768,7 +768,7 @@ describe('aplus.each() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return aplus.each(input, square).then(function (values) {
+        return async.each(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });

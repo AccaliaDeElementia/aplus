@@ -10,36 +10,36 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.any()', function () {
+describe('async.any()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.some to aplus.any', function () {
-        aplus.some.should.equal(aplus.any);
+    it('should alias async.some to async.any', function () {
+        async.some.should.equal(async.any);
     });
-    it('should spawn Promises via aplus.each', function () {
-        return aplus.any([1], function () {
+    it('should spawn Promises via async.each', function () {
+        return async.any([1], function () {
             return Promise.resolve(true);
         }).then(function () {
-            aplus.each.called.should.equal(true);
+            async.each.called.should.equal(true);
         });
     });
     it('should resolve true when any promises resolve truthy', function () {
-        return aplus.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             return Promise.resolve(i === 5);
         }).then(function (value) {
             value.should.equal(true);
         });
     });
     it('should resolve false when all promises resolve falsey', function () {
-        return aplus.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function () {
+        return async.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function () {
             return Promise.resolve(false);
         }).then(function (value) {
             value.should.equal(false);
@@ -47,7 +47,7 @@ describe('aplus.any()', function () {
     });
     it('should reject if any promises reject', function () {
         var error = new Error('early break');
-        return aplus.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.any([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             if (i === 5) {
                 throw error;
             }
@@ -59,27 +59,27 @@ describe('aplus.any()', function () {
         });
     });
 });
-describe('aplus.anySeries()', function () {
+describe('async.anySeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.someSeries to aplus.anySeries', function () {
-        aplus.someSeries.should.equal(aplus.anySeries);
+    it('should alias async.someSeries to async.anySeries', function () {
+        async.someSeries.should.equal(async.anySeries);
     });
-    it('should spawn Promises via aplus.eachSeries', function () {
-        return aplus.anySeries([1], function () {
+    it('should spawn Promises via async.eachSeries', function () {
+        return async.anySeries([1], function () {
             return Promise.resolve(true);
         }).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should resolve true when any promises resolve truthy', function () {
-        return aplus.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             return Promise.resolve(i === 5);
         }).then(function (value) {
             value.should.equal(true);
@@ -87,7 +87,7 @@ describe('aplus.anySeries()', function () {
     });
     it('should not spawn additional promises after a promise resolves truthy', function () {
         var promises = 0;
-        return aplus.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             promises += 1;
             return Promise.resolve(i === 5);
         }).then(function () {
@@ -95,7 +95,7 @@ describe('aplus.anySeries()', function () {
         });
     });
     it('should resolve false when all promises resolve falsey', function () {
-        return aplus.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function () {
+        return async.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function () {
             return Promise.resolve(false);
         }).then(function (value) {
             value.should.equal(false);
@@ -103,7 +103,7 @@ describe('aplus.anySeries()', function () {
     });
     it('should reject if any promises reject', function () {
         var error = new Error('early break');
-        return aplus.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             if (i === 5) {
                 throw error;
             }
@@ -117,7 +117,7 @@ describe('aplus.anySeries()', function () {
     it('should not spawn additional promises once a promise rejects', function () {
         var promises = 0,
             error = new Error('early break');
-        return aplus.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
+        return async.anySeries([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], function (i) {
             promises += 1;
             if (i === 5) {
                 throw error;
@@ -128,27 +128,27 @@ describe('aplus.anySeries()', function () {
         });
     });
 });
-describe('aplus.anyLimit()', function () {
+describe('async.anyLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should alias aplus.someLimit to aplus.anyLimit', function () {
-        aplus.someLimit.should.equal(aplus.anyLimit);
+    it('should alias async.someLimit to async.anyLimit', function () {
+        async.someLimit.should.equal(async.anyLimit);
     });
-    it('should spawn Promises via aplus.eachLimit', function () {
-        return aplus.anyLimit([1], 3, function () {
+    it('should spawn Promises via async.eachLimit', function () {
+        return async.anyLimit([1], 3, function () {
             return Promise.resolve(true);
         }).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should resolve true when any promises resolve truthy', function () {
-        return aplus.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
+        return async.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
             return Promise.resolve(i === 5);
         }).then(function (value) {
             value.should.equal(true);
@@ -161,7 +161,7 @@ describe('aplus.anyLimit()', function () {
         for (var i = 1; i <= length; i += 1) {
             input[i] = i;
         }
-        return aplus.anyLimit(input, 3, function (j) {
+        return async.anyLimit(input, 3, function (j) {
             promises += 1;
             return Promise.resolve(j === 5);
         }).then(function () {
@@ -169,7 +169,7 @@ describe('aplus.anyLimit()', function () {
         });
     });
     it('should resolve false when all promises resolve falsey', function () {
-        return aplus.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function () {
+        return async.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function () {
             return Promise.resolve(false);
         }).then(function (value) {
             value.should.equal(false);
@@ -177,7 +177,7 @@ describe('aplus.anyLimit()', function () {
     });
     it('should reject if any promises reject', function () {
         var error = new Error('early break');
-        return aplus.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
+        return async.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
             if (i === 5) {
                 throw error;
             }
@@ -191,7 +191,7 @@ describe('aplus.anyLimit()', function () {
     it('should not spawn additional promises once a promise rejects', function () {
         var promises = 0,
             error = new Error('early break');
-        return aplus.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
+        return async.anyLimit([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3, function (i) {
             promises += 1;
             if (i === 5) {
                 throw error;

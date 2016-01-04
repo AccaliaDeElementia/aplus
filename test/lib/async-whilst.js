@@ -10,18 +10,18 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
 
-describe('aplus.whilst()', function () {
-    it('should alias aplus.during to aplus.whilst', function () {
-        aplus.during.should.equal(aplus.whilst);
+describe('async.whilst()', function () {
+    it('should alias async.during to async.whilst', function () {
+        async.during.should.equal(async.whilst);
     });
     it('should not call iterator on initial test failure', function () {
         var test = sinon.stub(),
             iterator = sinon.stub();
         test.returns(Promise.resolve(false));
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             iterator.called.should.equal(false);
         });
     });
@@ -30,7 +30,7 @@ describe('aplus.whilst()', function () {
             test = sinon.stub(),
             iterator = sinon.stub();
         test.returns(Promise.reject(error));
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -41,7 +41,7 @@ describe('aplus.whilst()', function () {
             test = sinon.stub(),
             iterator = sinon.stub();
         test.throws(error);
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -53,7 +53,7 @@ describe('aplus.whilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(Promise.resolve(null));
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             iterator.callCount.should.equal(5);
         });
     });
@@ -63,7 +63,7 @@ describe('aplus.whilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(Promise.resolve(null));
-        return aplus.whilst(test, iterator).then(function (value) {
+        return async.whilst(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -73,7 +73,7 @@ describe('aplus.whilst()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(true));
         iterator.returns(Promise.reject(error));
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -85,7 +85,7 @@ describe('aplus.whilst()', function () {
             iterator = sinon.stub();
         test.returns(Promise.resolve(true));
         iterator.throws(error);
-        return aplus.whilst(test, iterator).then(function () {
+        return async.whilst(test, iterator).then(function () {
             chai.assert.fail('should not accept promise!');
         }).catch(function (err) {
             err.should.equal(error);
@@ -97,7 +97,7 @@ describe('aplus.whilst()', function () {
         test.returns(true);
         test.onCall(5).returns(false);
         iterator.returns(Promise.resolve(null));
-        return aplus.whilst(test, iterator).then(function (value) {
+        return async.whilst(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -107,7 +107,7 @@ describe('aplus.whilst()', function () {
         test.returns(Promise.resolve(true));
         test.onCall(5).returns(Promise.resolve(false));
         iterator.returns(null);
-        return aplus.whilst(test, iterator).then(function (value) {
+        return async.whilst(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -125,7 +125,7 @@ describe('aplus.whilst()', function () {
             }
         });
         iterator.returns(Promise.resolve(null));
-        return aplus.whilst(test, iterator).then(function (value) {
+        return async.whilst(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });
@@ -139,7 +139,7 @@ describe('aplus.whilst()', function () {
                 return resolve(null);
             }
         });
-        return aplus.whilst(test, iterator).then(function (value) {
+        return async.whilst(test, iterator).then(function (value) {
             chai.expect(value).to.equal(undefined);
         });
     });

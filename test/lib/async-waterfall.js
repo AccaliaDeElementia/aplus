@@ -10,23 +10,23 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.waterfall()', function () {
+describe('async.waterfall()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn processes via aplus.eachSeries', function () {
+    it('should spawn processes via async.eachSeries', function () {
         var input = [function () {
             return Promise.resolve(1);
         }];
-        return aplus.waterfall(input).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+        return async.waterfall(input).then(function () {
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should resolve to final function\'s value', function () {
@@ -40,7 +40,7 @@ describe('aplus.waterfall()', function () {
             }, function () {
                 return Promise.resolve(expected);
             }];
-        return aplus.waterfall(input).then(function (value) {
+        return async.waterfall(input).then(function (value) {
             value.should.equal(expected);
         });
     });
@@ -63,7 +63,7 @@ describe('aplus.waterfall()', function () {
                 return Promise.resolve(9);
             }
         ];
-        return aplus.waterfall(input);
+        return async.waterfall(input);
     });
     it('should pass seed argument to first function', function () {
         var expected = {
@@ -79,48 +79,48 @@ describe('aplus.waterfall()', function () {
                     return Promise.resolve(5);
                 }
             ];
-        return aplus.waterfall(input, expected);
+        return async.waterfall(input, expected);
     });
 });
-describe('aplus.seq()', function () {
+describe('async.seq()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'waterfall');
+        sandbox.spy(async, 'waterfall');
     });
     afterEach(function () {
         sandbox.restore();
     });
     it('should return a function', function () {
-        chai.expect(aplus.seq([])).to.be.a('function');
+        chai.expect(async.seq([])).to.be.a('function');
     });
-    it('should call aplus.waterfall when executed', function () {
-        var seq = aplus.seq([function () {
+    it('should call async.waterfall when executed', function () {
+        var seq = async.seq([function () {
             return 1;
         }]);
         return seq().then(function () {
-            aplus.waterfall.called.should.equal(true);
+            async.waterfall.called.should.equal(true);
         });
     });
-    it('should pass array of tasks to aplus.waterfall when executed', function () {
+    it('should pass array of tasks to async.waterfall when executed', function () {
         var tasks = [function () {
                 return 1;
             }],
-            seq = aplus.seq(tasks);
+            seq = async.seq(tasks);
         return seq().then(function () {
-            aplus.waterfall.firstCall.args[0].should.eql(tasks);
+            async.waterfall.firstCall.args[0].should.eql(tasks);
         });
     });
-    it('should seed argument to aplus.waterfall when executed', function () {
-        var seq = aplus.seq([function () {
+    it('should seed argument to async.waterfall when executed', function () {
+        var seq = async.seq([function () {
             return 1;
         }]);
         return seq('i am legend').then(function () {
-            aplus.waterfall.firstCall.args[1].should.eql('i am legend');
+            async.waterfall.firstCall.args[1].should.eql('i am legend');
         });
     });
     it('should resolve with value of last function in chain', function () {
-        var seq = aplus.seq([function () {
+        var seq = async.seq([function () {
             return 1;
         }, function () {
             return 2;
@@ -134,48 +134,48 @@ describe('aplus.seq()', function () {
         });
     });
 });
-describe('aplus.compose()', function () {
+describe('async.compose()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'waterfall');
+        sandbox.spy(async, 'waterfall');
     });
     afterEach(function () {
         sandbox.restore();
     });
     it('should return a function', function () {
-        chai.expect(aplus.compose([])).to.be.a('function');
+        chai.expect(async.compose([])).to.be.a('function');
     });
-    it('should call aplus.waterfall when executed', function () {
-        var compose = aplus.compose([function () {
+    it('should call async.waterfall when executed', function () {
+        var compose = async.compose([function () {
             return 1;
         }]);
         return compose().then(function () {
-            aplus.waterfall.called.should.equal(true);
+            async.waterfall.called.should.equal(true);
         });
     });
-    it('should pass array of tasks to aplus.waterfall when executed', function () {
+    it('should pass array of tasks to async.waterfall when executed', function () {
         var tasks = [function () {
                 return 1;
             }, function () {
                 return 2;
             }],
             expected = tasks.slice().reverse(),
-            compose = aplus.compose(tasks);
+            compose = async.compose(tasks);
         return compose().then(function () {
-            aplus.waterfall.firstCall.args[0].should.eql(expected);
+            async.waterfall.firstCall.args[0].should.eql(expected);
         });
     });
-    it('should seed argument to aplus.waterfall when executed', function () {
-        var compose = aplus.compose([function () {
+    it('should seed argument to async.waterfall when executed', function () {
+        var compose = async.compose([function () {
             return 1;
         }]);
         return compose('i am legend').then(function () {
-            aplus.waterfall.firstCall.args[1].should.eql('i am legend');
+            async.waterfall.firstCall.args[1].should.eql('i am legend');
         });
     });
     it('should resolve with value of first function in input list', function () {
-        var compose = aplus.compose([function () {
+        var compose = async.compose([function () {
             return 1;
         }, function () {
             return 2;

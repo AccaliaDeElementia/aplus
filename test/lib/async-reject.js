@@ -10,7 +10,7 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
 
 describe('reject functions', function () {
@@ -58,43 +58,43 @@ describe('reject functions', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
-        sandbox.spy(aplus, 'eachLimit');
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'each');
+        sandbox.spy(async, 'eachLimit');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    describe('aplus.rejectLimit()', function () {
-        it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.rejectLimit([1], 3, function () {
+    describe('async.rejectLimit()', function () {
+        it('should spawn Promises via async.eachLimit', function () {
+            return async.rejectLimit([1], 3, function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.eachLimit.called.should.equal(true);
+                async.eachLimit.called.should.equal(true);
             });
         });
         testReject(function (arr, iterator) {
-            return aplus.rejectLimit(arr, 3, iterator);
+            return async.rejectLimit(arr, 3, iterator);
         });
     });
-    describe('aplus.reject()', function () {
-        it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.reject([1], function () {
+    describe('async.reject()', function () {
+        it('should spawn Promises via async.eachLimit', function () {
+            return async.reject([1], function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.each.called.should.equal(true);
+                async.each.called.should.equal(true);
             });
         });
-        testReject(aplus.reject);
+        testReject(async.reject);
     });
-    describe('aplus.rejectSeries()', function () {
-        it('should spawn Promises via aplus.eachSeries', function () {
-            return aplus.rejectSeries([1], function () {
+    describe('async.rejectSeries()', function () {
+        it('should spawn Promises via async.eachSeries', function () {
+            return async.rejectSeries([1], function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.eachSeries.called.should.equal(true);
+                async.eachSeries.called.should.equal(true);
             });
         });
-        testReject(aplus.rejectSeries);
+        testReject(async.rejectSeries);
     });
 });

@@ -10,23 +10,23 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.series()', function () {
+describe('async.series()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn processes via aplus.eachSeries with task array', function () {
+    it('should spawn processes via async.eachSeries with task array', function () {
         var input = [function () {
             return Promise.resolve(1);
         }];
-        return aplus.series(input).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+        return async.series(input).then(function () {
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should operate on an array of tasks returning promises', function () {
@@ -42,7 +42,7 @@ describe('aplus.series()', function () {
                 return Promise.resolve(5);
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -59,7 +59,7 @@ describe('aplus.series()', function () {
                 return 5;
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -96,7 +96,7 @@ describe('aplus.series()', function () {
                 };
             }],
             expected = [1, 2, 4, 3, 5];
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -109,7 +109,7 @@ describe('aplus.series()', function () {
             }, function () {
                 return Promise.resolve(1);
             }];
-        return aplus.series(input).then(function () {
+        return async.series(input).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -127,18 +127,18 @@ describe('aplus.series()', function () {
                 promises++;
                 return Promise.resolve(1);
             }];
-        return aplus.series(input).catch(function () {
+        return async.series(input).catch(function () {
             promises.should.equal(2);
         });
     });
-    it('should spawn processes via aplus.eachSeries with task array', function () {
+    it('should spawn processes via async.eachSeries with task array', function () {
         var input = {
             one: function () {
                 return Promise.resolve(1);
             }
         };
-        return aplus.series(input).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+        return async.series(input).then(function () {
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should operate on a map of tasks returning promises', function () {
@@ -166,7 +166,7 @@ describe('aplus.series()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -195,7 +195,7 @@ describe('aplus.series()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -244,7 +244,7 @@ describe('aplus.series()', function () {
                 four: 16,
                 five: 25
             };
-        return aplus.series(input).then(function (value) {
+        return async.series(input).then(function (value) {
             value.should.eql(expected);
         });
     });
@@ -261,7 +261,7 @@ describe('aplus.series()', function () {
                     return Promise.resolve(1);
                 }
             };
-        return aplus.series(input).then(function () {
+        return async.series(input).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -283,7 +283,7 @@ describe('aplus.series()', function () {
                     return Promise.resolve(1);
                 }
             };
-        return aplus.series(input).catch(function () {
+        return async.series(input).catch(function () {
             promises.should.equal(2);
         });
     });

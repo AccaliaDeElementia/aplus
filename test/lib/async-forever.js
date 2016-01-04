@@ -9,9 +9,9 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.forever()', function () {
+describe('async.forever()', function () {
     it('should loop until inner promise rejects', function () {
         var target = Math.ceil(Math.random() * 20) + 10,
             count = 0,
@@ -24,7 +24,7 @@ describe('aplus.forever()', function () {
             }
             return Promise.resolve(count);
         }
-        return aplus.forever(task).catch(function (err) {
+        return async.forever(task).catch(function (err) {
             err.should.equal(expected);
         });
     });
@@ -34,7 +34,7 @@ describe('aplus.forever()', function () {
         function task() {
             throw expected;
         }
-        return aplus.forever(task).catch(function (err) {
+        return async.forever(task).catch(function (err) {
             err.should.equal(expected);
         });
     });
@@ -44,7 +44,7 @@ describe('aplus.forever()', function () {
         function task() {
             return Promise.reject(expected);
         }
-        return aplus.forever(task).catch(function (err) {
+        return async.forever(task).catch(function (err) {
             err.should.equal(expected);
         });
     });

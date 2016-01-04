@@ -10,7 +10,7 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
 describe('filter functions', function () {
     function testFilter(select) {
@@ -57,52 +57,52 @@ describe('filter functions', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
-        sandbox.spy(aplus, 'eachLimit');
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'each');
+        sandbox.spy(async, 'eachLimit');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    describe('aplus.selectLimit()', function () {
-        it('should alias aplus.filterLimit to aplus.selectLimit', function () {
-            aplus.filterLimit.should.equal(aplus.selectLimit);
+    describe('async.selectLimit()', function () {
+        it('should alias async.filterLimit to async.selectLimit', function () {
+            async.filterLimit.should.equal(async.selectLimit);
         });
-        it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.selectLimit([1], 3, function () {
+        it('should spawn Promises via async.eachLimit', function () {
+            return async.selectLimit([1], 3, function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.eachLimit.called.should.equal(true);
+                async.eachLimit.called.should.equal(true);
             });
         });
         testFilter(function (arr, iterator) {
-            return aplus.selectLimit(arr, 3, iterator);
+            return async.selectLimit(arr, 3, iterator);
         });
     });
-    describe('aplus.select()', function () {
-        it('should alias aplus.filter to aplus.select', function () {
-            aplus.filter.should.equal(aplus.select);
+    describe('async.select()', function () {
+        it('should alias async.filter to async.select', function () {
+            async.filter.should.equal(async.select);
         });
-        it('should spawn Promises via aplus.eachLimit', function () {
-            return aplus.select([1], function () {
+        it('should spawn Promises via async.eachLimit', function () {
+            return async.select([1], function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.each.called.should.equal(true);
+                async.each.called.should.equal(true);
             });
         });
-        testFilter(aplus.select);
+        testFilter(async.select);
     });
-    describe('aplus.selectSeries()', function () {
-        it('should alias aplus.filterSeries to aplus.selectSeries', function () {
-            aplus.filterSeries.should.equal(aplus.selectSeries);
+    describe('async.selectSeries()', function () {
+        it('should alias async.filterSeries to async.selectSeries', function () {
+            async.filterSeries.should.equal(async.selectSeries);
         });
-        it('should spawn Promises via aplus.eachSeries', function () {
-            return aplus.selectSeries([1], function () {
+        it('should spawn Promises via async.eachSeries', function () {
+            return async.selectSeries([1], function () {
                 return Promise.resolve(true);
             }).then(function () {
-                aplus.eachSeries.called.should.equal(true);
+                async.eachSeries.called.should.equal(true);
             });
         });
-        testFilter(aplus.selectSeries);
+        testFilter(async.selectSeries);
     });
 });

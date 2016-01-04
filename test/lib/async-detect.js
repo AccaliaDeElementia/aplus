@@ -10,28 +10,28 @@ if (!global.Promise) {
 chai.use(chaiAsPromised);
 chai.should();
 
-var aplus = require('../../lib/aplus');
+var async = require('../../lib/async-as-promised');
 
-describe('aplus.detect()', function () {
+describe('async.detect()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'each');
+        sandbox.spy(async, 'each');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn Promises via aplus.each', function () {
-        return aplus.detect([1], function (i) {
+    it('should spawn Promises via async.each', function () {
+        return async.detect([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.each.called.should.equal(true);
+            async.each.called.should.equal(true);
         });
     });
     it('should detect value', function () {
         var input = [1, 2, 3, 4, 5],
             expected = 5;
-        return aplus.detect(input, function (i) {
+        return async.detect(input, function (i) {
             return Promise.resolve(i === expected);
         }).then(function (value) {
             value.should.eql(expected);
@@ -39,7 +39,7 @@ describe('aplus.detect()', function () {
     });
     it('should resolve as undefined when value not detected', function () {
         var input = [1, 2, 3, 4, 5];
-        return aplus.detect(input, function (i) {
+        return async.detect(input, function (i) {
             return Promise.resolve(i === 90);
         }).then(function (value) {
             chai.expect(value).to.eql(undefined);
@@ -48,7 +48,7 @@ describe('aplus.detect()', function () {
     it('should reject when inner promise rejects', function () {
         var input = [1, 2, 3, 4, 5],
             error = new Error('BAD SCARY ERROR');
-        return aplus.detect(input, function (i) {
+        return async.detect(input, function (i) {
             if (i === 3) {
                 throw error;
             }
@@ -60,26 +60,26 @@ describe('aplus.detect()', function () {
         });
     });
 });
-describe('aplus.detectSeries()', function () {
+describe('async.detectSeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachSeries');
+        sandbox.spy(async, 'eachSeries');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn Promises via aplus.eachSeries', function () {
-        return aplus.detectSeries([1], function (i) {
+    it('should spawn Promises via async.eachSeries', function () {
+        return async.detectSeries([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.eachSeries.called.should.equal(true);
+            async.eachSeries.called.should.equal(true);
         });
     });
     it('should detect value', function () {
         var input = [1, 2, 3, 4, 5],
             expected = 5;
-        return aplus.detectSeries(input, function (i) {
+        return async.detectSeries(input, function (i) {
             return Promise.resolve(i === expected);
         }).then(function (value) {
             value.should.eql(expected);
@@ -87,7 +87,7 @@ describe('aplus.detectSeries()', function () {
     });
     it('should resolve as undefined when value not detected', function () {
         var input = [1, 2, 3, 4, 5];
-        return aplus.detectSeries(input, function (i) {
+        return async.detectSeries(input, function (i) {
             return Promise.resolve(i === 90);
         }).then(function (value) {
             chai.expect(value).to.eql(undefined);
@@ -96,7 +96,7 @@ describe('aplus.detectSeries()', function () {
     it('should stop spawning promises after detecting value', function () {
         var input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             spawned = 0;
-        return aplus.detectSeries(input, function (i) {
+        return async.detectSeries(input, function (i) {
             spawned += 1;
             return Promise.resolve(i === 4);
         }).then(function () {
@@ -106,7 +106,7 @@ describe('aplus.detectSeries()', function () {
     it('should reject when inner promise rejects', function () {
         var input = [1, 2, 3, 4, 5],
             error = new Error('BAD SCARY ERROR');
-        return aplus.detectSeries(input, function (i) {
+        return async.detectSeries(input, function (i) {
             if (i === 3) {
                 throw error;
             }
@@ -120,7 +120,7 @@ describe('aplus.detectSeries()', function () {
     it('should stop spawning promises after inner promise rejects', function () {
         var input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             spawned = 0;
-        return aplus.detectSeries(input, function (i) {
+        return async.detectSeries(input, function (i) {
             spawned += 1;
             if (i === 4) {
                 throw new Error('break');
@@ -131,26 +131,26 @@ describe('aplus.detectSeries()', function () {
         });
     });
 });
-describe('aplus.detectLimit()', function () {
+describe('async.detectLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(aplus, 'eachLimit');
+        sandbox.spy(async, 'eachLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should spawn Promises via aplus.eachLimit', function () {
-        return aplus.detectLimit([1], 5, function (i) {
+    it('should spawn Promises via async.eachLimit', function () {
+        return async.detectLimit([1], 5, function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            aplus.eachLimit.called.should.equal(true);
+            async.eachLimit.called.should.equal(true);
         });
     });
     it('should detect value', function () {
         var input = [1, 2, 3, 4, 5],
             expected = 5;
-        return aplus.detectLimit(input, 3, function (i) {
+        return async.detectLimit(input, 3, function (i) {
             return Promise.resolve(i === expected);
         }).then(function (value) {
             value.should.eql(expected);
@@ -158,7 +158,7 @@ describe('aplus.detectLimit()', function () {
     });
     it('should resolve as undefined when value not detected', function () {
         var input = [1, 2, 3, 4, 5];
-        return aplus.detectLimit(input, 3, function (i) {
+        return async.detectLimit(input, 3, function (i) {
             return Promise.resolve(i === 90);
         }).then(function (value) {
             chai.expect(value).to.eql(undefined);
@@ -167,7 +167,7 @@ describe('aplus.detectLimit()', function () {
     it('should stop spawning promises after detecting value', function () {
         var input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             spawned = 0;
-        return aplus.detectLimit(input, 3, function (i) {
+        return async.detectLimit(input, 3, function (i) {
             spawned += 1;
             return Promise.resolve(i === 4);
         }).then(function () {
@@ -177,7 +177,7 @@ describe('aplus.detectLimit()', function () {
     it('should reject when inner promise rejects', function () {
         var input = [1, 2, 3, 4, 5],
             error = new Error('BAD SCARY ERROR');
-        return aplus.detectLimit(input, 3, function (i) {
+        return async.detectLimit(input, 3, function (i) {
             if (i === 3) {
                 throw error;
             }
@@ -191,7 +191,7 @@ describe('aplus.detectLimit()', function () {
     it('should stop spawning promises after inner promise rejects', function () {
         var input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             spawned = 0;
-        return aplus.detectLimit(input, 3, function (i) {
+        return async.detectLimit(input, 3, function (i) {
             spawned += 1;
             if (i === 4) {
                 throw new Error('break');
