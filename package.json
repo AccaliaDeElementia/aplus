@@ -1,14 +1,13 @@
 {
-  "name": "aplus",
-  "version": "0.1.0",
+  "name": "aplus-as-promised",
+  "version": "0.5.0",
   "description": "Utilities for dealing with Promises and turning callback based APIs into promises",
   "repository": "https://github.com/AccaliaDeElementia/aplus",
   "license": "MIT",
-  "author": "Accalia Elementia <accalia@sockdrawer.io> (https://github.com/AccaliaDeElementia)",
+  "author": "Accalia Elementia <accalia.de.elementia@gmail.com> (https://github.com/AccaliaDeElementia)",
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/AccaliaDeElementia/aplus/issues",
-    "email": "support@sockdrawer.io"
+    "url": "https://github.com/AccaliaDeElementia/aplus-as-promised/issues"
   },
   "main": "./lib/aplus.js",
   "bin": "./lib/aplus.js",
@@ -20,13 +19,13 @@
     "promise-polyfill": "^2.1.0"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
-    "coveralls": "^2.11.4",
-    "eslint": "^1.4.1",
-    "istanbul": "^0.3.19",
-    "mocha": "^2.3.2",
-    "sinon": "^1.16.1"
+    "chai": "^3.4.1",
+    "chai-as-promised": "^5.2.0",
+    "coveralls": "^2.11.6",
+    "eslint": "^1.10.3",
+    "istanbul": "^0.3.22",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2"
   },
   "scripts": {
     "lint": "eslint .",
