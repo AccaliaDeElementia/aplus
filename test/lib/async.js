@@ -41,6 +41,14 @@ describe('async.constant()', function () {
         return async.constant(5).should.eventually.equal(5);
     });
 });
+describe('async.fail()', function () {
+    it('should return a Promise', function () {
+        async.fail('boo!').should.be.an.instanceOf(Promise);
+    });
+    it('should resolve to provided value', function () {
+        return async.fail('boo!').should.eventually.be.rejectedWith('boo!');
+    });
+});
 describe('async.delay()', function () {
     it('should alias async.later to async.delay', function () {
         async.later.should.equal(async.delay);
