@@ -15,7 +15,7 @@ describe('async.sort()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(async, 'forEachOf');
+        sandbox.spy(async, 'eachOf');
     });
     afterEach(function () {
         sandbox.restore();
@@ -23,11 +23,11 @@ describe('async.sort()', function () {
     it('should alias async.sortBy to async.sort', function () {
         async.sortBy.should.equal(async.sort);
     });
-    it('should spawn Promises via async.forEachOf', function () {
+    it('should spawn Promises via async.eachOf', function () {
         return async.sort([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            async.forEachOf.called.should.equal(true);
+            async.eachOf.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {
@@ -74,7 +74,7 @@ describe('async.sortSeries()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(async, 'forEachOfSeries');
+        sandbox.spy(async, 'eachOfSeries');
     });
     afterEach(function () {
         sandbox.restore();
@@ -82,11 +82,11 @@ describe('async.sortSeries()', function () {
     it('should alias async.sortBySeries to async.sortSeries', function () {
         async.sortBySeries.should.equal(async.sortSeries);
     });
-    it('should spawn Promises via async.forEachOfSeries', function () {
+    it('should spawn Promises via async.eachOfSeries', function () {
         return async.sortSeries([1], function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            async.forEachOfSeries.called.should.equal(true);
+            async.eachOfSeries.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {
@@ -148,7 +148,7 @@ describe('async.sortLimit()', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(async, 'forEachOfLimit');
+        sandbox.spy(async, 'eachOfLimit');
     });
     afterEach(function () {
         sandbox.restore();
@@ -156,11 +156,11 @@ describe('async.sortLimit()', function () {
     it('should alias async.sortByLimit to async.sortLimit', function () {
         async.sortByLimit.should.equal(async.sortLimit);
     });
-    it('should spawn Promises via async.forEachOfLimit', function () {
+    it('should spawn Promises via async.eachOfLimit', function () {
         return async.sortLimit([1], 3, function (i) {
             return Promise.resolve(i);
         }).then(function () {
-            async.forEachOfLimit.called.should.equal(true);
+            async.eachOfLimit.called.should.equal(true);
         });
     });
     it('should accept empty input', function () {

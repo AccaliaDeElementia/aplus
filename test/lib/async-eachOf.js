@@ -12,12 +12,12 @@ chai.should();
 
 var async = require('../../lib/async-as-promised');
 
-describe('async.forEachOfLimit', function () {
+describe('async.eachOfLimit', function () {
     it('should accept empty array', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return async.forEachOfLimit([], 4, square).then(function (values) {
+        return async.eachOfLimit([], 4, square).then(function (values) {
             values.should.eql([]);
         });
     });
@@ -25,7 +25,7 @@ describe('async.forEachOfLimit', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return async.forEachOfLimit(null, 4, square).then(function (values) {
+        return async.eachOfLimit(null, 4, square).then(function (values) {
             values.should.eql([]);
         });
     });
@@ -38,7 +38,7 @@ describe('async.forEachOfLimit', function () {
                 resolve(i * i);
             });
         }
-        return async.forEachOfLimit(input, 4, square).then(function (values) {
+        return async.eachOfLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -48,7 +48,7 @@ describe('async.forEachOfLimit', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return async.forEachOfLimit(input, undefined, square);
+        return async.eachOfLimit(input, undefined, square);
     });
     it('should reject on inner promise rejection', function () {
         var input = [1, 2, 3, 4, 5],
@@ -63,7 +63,7 @@ describe('async.forEachOfLimit', function () {
                 }
             });
         }
-        return async.forEachOfLimit(input, 4, square).then(function () {
+        return async.eachOfLimit(input, 4, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -82,7 +82,7 @@ describe('async.forEachOfLimit', function () {
                 }
             });
         }
-        return async.forEachOfLimit(input, 3, square).then(function () {
+        return async.eachOfLimit(input, 3, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -103,7 +103,7 @@ describe('async.forEachOfLimit', function () {
             }
             return Promise.resolve(true);
         }
-        return async.forEachOfLimit(input, 3, filter).catch(function () {
+        return async.eachOfLimit(input, 3, filter).catch(function () {
             promises.should.be.below(length);
         });
     });
@@ -118,7 +118,7 @@ describe('async.forEachOfLimit', function () {
 
             });
         }
-        return async.forEachOfLimit(input, 100, square).then(function () {
+        return async.eachOfLimit(input, 100, square).then(function () {
             promises.should.equal(input.length);
         });
     });
@@ -142,7 +142,7 @@ describe('async.forEachOfLimit', function () {
                         return Promise.resolve(value);
                     });
                 }
-                return async.forEachOfLimit(input, limit, square);
+                return async.eachOfLimit(input, limit, square);
             });
         });
     });
@@ -157,7 +157,7 @@ describe('async.forEachOfLimit', function () {
                 }
             };
         }
-        return async.forEachOfLimit(input, 4, square).then(function (values) {
+        return async.eachOfLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -168,15 +168,15 @@ describe('async.forEachOfLimit', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOfLimit(input, 4, square).then(function (values) {
+        return async.eachOfLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('async.forEachOfLimit() {object}', function () {
+describe('async.eachOfLimit() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return async.forEachOfLimit(input, 5, function (i) {
+        return async.eachOfLimit(input, 5, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -191,7 +191,7 @@ describe('async.forEachOfLimit() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return async.forEachOfLimit(input, 5, function (i) {
+        return async.eachOfLimit(input, 5, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -208,7 +208,7 @@ describe('async.forEachOfLimit() {object}', function () {
         function square(i) {
             return Promise.resolve(i * i);
         }
-        return async.forEachOfLimit(input, undefined, square);
+        return async.eachOfLimit(input, undefined, square);
     });
     it('should reject on inner promise rejection', function () {
         var input = {
@@ -227,7 +227,7 @@ describe('async.forEachOfLimit() {object}', function () {
                 }
             });
         }
-        return async.forEachOfLimit(input, 4, square).then(function () {
+        return async.eachOfLimit(input, 4, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -250,7 +250,7 @@ describe('async.forEachOfLimit() {object}', function () {
                 }
             });
         }
-        return async.forEachOfLimit(input, 3, square).then(function () {
+        return async.eachOfLimit(input, 3, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -271,7 +271,7 @@ describe('async.forEachOfLimit() {object}', function () {
             }
             return Promise.resolve(true);
         }
-        return async.forEachOfLimit(input, 3, filter).catch(function () {
+        return async.eachOfLimit(input, 3, filter).catch(function () {
             promises.should.be.below(length);
         });
     });
@@ -290,7 +290,7 @@ describe('async.forEachOfLimit() {object}', function () {
 
             });
         }
-        return async.forEachOfLimit(input, 100, square).then(function () {
+        return async.eachOfLimit(input, 100, square).then(function () {
             promises.should.equal(3);
         });
     });
@@ -315,7 +315,7 @@ describe('async.forEachOfLimit() {object}', function () {
                         return Promise.resolve(value);
                     });
                 }
-                return async.forEachOfLimit(input, limit, square);
+                return async.eachOfLimit(input, limit, square);
             });
         });
     });
@@ -338,7 +338,7 @@ describe('async.forEachOfLimit() {object}', function () {
                 }
             };
         }
-        return async.forEachOfLimit(input, 4, square).then(function (values) {
+        return async.eachOfLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -357,37 +357,37 @@ describe('async.forEachOfLimit() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOfLimit(input, 4, square).then(function (values) {
+        return async.eachOfLimit(input, 4, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('async.forEachOfSeries', function () {
+describe('async.eachOfSeries', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(async, 'forEachOfLimit');
+        sandbox.spy(async, 'eachOfLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should proxy calls to async.forEachOfLimit', function () {
-        async.forEachOfSeries([], sinon.spy());
-        async.forEachOfLimit.called.should.equal(true);
+    it('should proxy calls to async.eachOfLimit', function () {
+        async.eachOfSeries([], sinon.spy());
+        async.eachOfLimit.called.should.equal(true);
     });
-    it('should pass array to async.forEachOfLimit', function () {
+    it('should pass array to async.eachOfLimit', function () {
         var arr = [1, 2, 3];
-        async.forEachOfSeries(arr, sinon.spy());
-        async.forEachOfLimit.firstCall.args[0].should.equal(arr);
+        async.eachOfSeries(arr, sinon.spy());
+        async.eachOfLimit.firstCall.args[0].should.equal(arr);
     });
-    it('should pass limit of 1 to async.forEachOfLimit', function () {
-        async.forEachOfSeries([], sinon.spy());
-        async.forEachOfLimit.firstCall.args[1].should.equal(1);
+    it('should pass limit of 1 to async.eachOfLimit', function () {
+        async.eachOfSeries([], sinon.spy());
+        async.eachOfLimit.firstCall.args[1].should.equal(1);
     });
-    it('should pass iterator to async.forEachOfLimit', function () {
+    it('should pass iterator to async.eachOfLimit', function () {
         var iterator = sinon.spy();
-        async.forEachOfSeries([], iterator);
-        async.forEachOfLimit.firstCall.args[2].should.equal(iterator);
+        async.eachOfSeries([], iterator);
+        async.eachOfLimit.firstCall.args[2].should.equal(iterator);
     });
     it('should behave when provided with a thenable', function () {
         var input = [1, 2, 3, 4, 5],
@@ -400,7 +400,7 @@ describe('async.forEachOfSeries', function () {
                 }
             };
         }
-        return async.forEachOfSeries(input, square).then(function (values) {
+        return async.eachOfSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -411,15 +411,15 @@ describe('async.forEachOfSeries', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOfSeries(input, square).then(function (values) {
+        return async.eachOfSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('async.forEachOfSeries() {object}', function () {
+describe('async.eachOfSeries() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return async.forEachOfSeries(input, function (i) {
+        return async.eachOfSeries(input, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -434,7 +434,7 @@ describe('async.forEachOfSeries() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return async.forEachOfSeries(input, function (i) {
+        return async.eachOfSeries(input, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -457,7 +457,7 @@ describe('async.forEachOfSeries() {object}', function () {
                 }
             });
         }
-        return async.forEachOfSeries(input, square).then(function () {
+        return async.eachOfSeries(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -480,7 +480,7 @@ describe('async.forEachOfSeries() {object}', function () {
                 }
             });
         }
-        return async.forEachOfSeries(input, square).then(function () {
+        return async.eachOfSeries(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -501,7 +501,7 @@ describe('async.forEachOfSeries() {object}', function () {
             }
             return Promise.resolve(true);
         }
-        return async.forEachOfSeries(input, filter).catch(function () {
+        return async.eachOfSeries(input, filter).catch(function () {
             promises.should.equal(10);
         });
     });
@@ -520,7 +520,7 @@ describe('async.forEachOfSeries() {object}', function () {
 
             });
         }
-        return async.forEachOfSeries(input, square).then(function () {
+        return async.eachOfSeries(input, square).then(function () {
             promises.should.equal(3);
         });
     });
@@ -542,7 +542,7 @@ describe('async.forEachOfSeries() {object}', function () {
                 return Promise.resolve(value);
             });
         }
-        return async.forEachOfSeries(input, square);
+        return async.eachOfSeries(input, square);
     });
     it('should behave when provided with a thenable', function () {
         var input = {
@@ -563,7 +563,7 @@ describe('async.forEachOfSeries() {object}', function () {
                 }
             };
         }
-        return async.forEachOfSeries(input, square).then(function (values) {
+        return async.eachOfSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -582,37 +582,37 @@ describe('async.forEachOfSeries() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOfSeries(input, square).then(function (values) {
+        return async.eachOfSeries(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
-describe('async.forEachOf', function () {
+describe('async.eachOf', function () {
     var sandbox;
     beforeEach(function () {
         sandbox = sinon.sandbox.create();
-        sandbox.spy(async, 'forEachOfLimit');
+        sandbox.spy(async, 'eachOfLimit');
     });
     afterEach(function () {
         sandbox.restore();
     });
-    it('should proxy calls to async.forEachOfLimit', function () {
-        async.forEachOf([], sinon.spy());
-        async.forEachOfLimit.called.should.equal(true);
+    it('should proxy calls to async.eachOfLimit', function () {
+        async.eachOf([], sinon.spy());
+        async.eachOfLimit.called.should.equal(true);
     });
-    it('should pass array to async.forEachOfLimit', function () {
+    it('should pass array to async.eachOfLimit', function () {
         var arr = [1, 2, 3];
-        async.forEachOf(arr, sinon.spy());
-        async.forEachOfLimit.firstCall.args[0].should.equal(arr);
+        async.eachOf(arr, sinon.spy());
+        async.eachOfLimit.firstCall.args[0].should.equal(arr);
     });
-    it('should pass limit of POSITIVE_INFINITY to async.forEachOfLimit', function () {
-        async.forEachOf([], sinon.spy());
-        async.forEachOfLimit.firstCall.args[1].should.equal(Number.POSITIVE_INFINITY);
+    it('should pass limit of POSITIVE_INFINITY to async.eachOfLimit', function () {
+        async.eachOf([], sinon.spy());
+        async.eachOfLimit.firstCall.args[1].should.equal(Number.POSITIVE_INFINITY);
     });
-    it('should pass iterator to async.forEachOfLimit', function () {
+    it('should pass iterator to async.eachOfLimit', function () {
         var iterator = sinon.spy();
-        async.forEachOf([], iterator);
-        async.forEachOfLimit.firstCall.args[2].should.equal(iterator);
+        async.eachOf([], iterator);
+        async.eachOfLimit.firstCall.args[2].should.equal(iterator);
     });
     it('should behave when provided with a thenable', function () {
         var input = [1, 2, 3, 4, 5],
@@ -625,7 +625,7 @@ describe('async.forEachOf', function () {
                 }
             };
         }
-        return async.forEachOf(input, square).then(function (values) {
+        return async.eachOf(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -636,16 +636,16 @@ describe('async.forEachOf', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOf(input, square).then(function (values) {
+        return async.eachOf(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
 });
 
-describe('async.forEachOf() {object}', function () {
+describe('async.eachOf() {object}', function () {
     it('should accept empty object values', function () {
         var input = {};
-        return async.forEachOf(input, function (i) {
+        return async.eachOf(input, function (i) {
             return Promise.resolve(i * i);
         });
     });
@@ -660,7 +660,7 @@ describe('async.forEachOf() {object}', function () {
                 second: 4,
                 third: 9
             };
-        return async.forEachOf(input, function (i) {
+        return async.eachOf(input, function (i) {
             return Promise.resolve(i * i);
         }).then(function (result) {
             result.should.eql(expected);
@@ -683,7 +683,7 @@ describe('async.forEachOf() {object}', function () {
                 }
             });
         }
-        return async.forEachOf(input, square).then(function () {
+        return async.eachOf(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -706,7 +706,7 @@ describe('async.forEachOf() {object}', function () {
                 }
             });
         }
-        return async.forEachOf(input, square).then(function () {
+        return async.eachOf(input, square).then(function () {
             chai.assert.fail('Should not accept promise');
         }).catch(function (rejection) {
             rejection.should.equal(expected);
@@ -731,7 +731,7 @@ describe('async.forEachOf() {object}', function () {
                 }
             };
         }
-        return async.forEachOf(input, square).then(function (values) {
+        return async.eachOf(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
@@ -750,7 +750,7 @@ describe('async.forEachOf() {object}', function () {
         function square(i) {
             return i * i;
         }
-        return async.forEachOf(input, square).then(function (values) {
+        return async.eachOf(input, square).then(function (values) {
             values.should.eql(expected);
         });
     });
